@@ -26,7 +26,7 @@ latest_posts:
   scrollable: true # adds a vertical scroll bar if there are more than 3 new post items
   limit: 3 # leave blank to include all the blog posts
 ---
-I am a Ph.D. scholar at IIIT-Delhi, supervised by [Prof. Mukesh Mohania](https://www.iiitd.ac.in/mukesh) and [Prof. Vikram Goyal](https://www.iiitd.ac.in/vikram). My research focuses on the development of multimodal architectures and representation learning. Currently, I am working on the development of small-scale video generation models that are suitable for resource-scarce environments. I am also exploring efficient representations of various modalities to enable more effective and efficient machine learning.
+I am a Ph.D. researcher at IIIT-Delhi, working under the guidance of [Prof. Mukesh Mohania](https://www.iiitd.ac.in/mukesh) and [Prof. Vikram Goyal](https://www.iiitd.ac.in/vikram). My work sits at the intersection of multimodal learning and generative AI — specifically, building compact video generation models that work well without massive compute. I care deeply about efficient representations that make machine learning more accessible and practical.
 
 Complementing my technical pursuits, I am also a dedicated student of philosophy and history, seeking to contextualize the broader implications of the intelligence we are constructing.
 ### Interests
