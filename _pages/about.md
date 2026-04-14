@@ -26,14 +26,15 @@ latest_posts:
   scrollable: true # adds a vertical scroll bar if there are more than 3 new post items
   limit: 3 # leave blank to include all the blog posts
 ---
-I am a Ph.D. researcher at IIIT-Delhi, working under the guidance of [Prof. Mukesh Mohania](https://www.iiitd.ac.in/mukesh) and [Prof. Vikram Goyal](https://www.iiitd.ac.in/vikram). My work sits at the intersection of multimodal learning and generative AI — specifically, building compact video generation models that work well without massive compute. I care deeply about efficient representations that make machine learning more accessible and practical.
+I am a Ph.D. researcher at IIIT-Delhi, advised by [Prof. Mukesh Mohania](https://www.iiitd.ac.in/mukesh) and [Prof. Vikram Goyal](https://www.iiitd.ac.in/vikram). My research lies at the intersection of multimodal learning and generative AI, with a focus on building efficient video generation models that deliver strong results without requiring massive compute. I am particularly interested in compact, expressive representations that make modern machine learning more accessible and practically deployable.
 
-Complementing my technical pursuits, I am also a dedicated student of philosophy and history, seeking to contextualize the broader implications of the intelligence we are constructing.
+Beyond research, I am a student of philosophy and history — disciplines that help me think carefully about the broader implications of the AI systems we are building.
+
 ### Interests
 
-*   **Video Generation** 
+*   **Video Generation**
 *   **Video Understanding**
 *   **Distributed Training**
 *   **Representation Learning**
 
-Feel free to reach out to [me](mailto:saij@iiitd.ac.in) for collaborations on generative AI and my broader research interests.
+I am always open to collaborations in generative AI and related areas — feel free to [reach out](mailto:saij@iiitd.ac.in).
