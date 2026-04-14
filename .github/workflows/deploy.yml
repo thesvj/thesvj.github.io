@@ -70,7 +70,12 @@ jobs:
       - name: Build site
         run: |
           export JEKYLL_ENV=production
-          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+          bundle exec jekyll build --verbose 2>&1 | tee build.log
+          if [ ! -d _site ] || [ -z "$(ls -A _site)" ]; then
+            echo "::error::Jekyll build produced no output"
+            tail -100 build.log
+            exit 1
+          fi
       - name: Purge unused CSS
         run: |
           npm install -g purgecss
