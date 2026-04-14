@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: PhD Student at <a href='[https://www.iiitd.ac.in/](https://www.iiitd.ac.in/people/phd/current)'>IIIT-Delhi</a>. Researcher.
+subtitle: PhD Student at <a href='https://www.iiitd.ac.in/people/phd/current'>IIIT-Delhi</a>. Researcher.
 
 profile:
   align: right
