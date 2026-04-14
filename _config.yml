@@ -71,8 +71,8 @@ bing_site_verification:
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: al-folio
-blog_description: a simple whitespace theme for academics
+blog_name: thesvj
+blog_description: PhD Student at IIIT-Delhi researching Multimodal AI
 permalink: /blog/:year/:title/
 lsi: false
 
@@ -97,19 +97,9 @@ giscus:
   emit_metadata: 0
   lang: en
 
-disqus_shortname: al-folio
+disqus_shortname: # leave blank to disable Disqus comments
 
 external_sources:
-  - name: medium.com
-    rss_url: https://medium.com/@al-folio/feed
-    categories: [external-posts]
-    tags: [medium]
-  - name: Google Blog
-    posts:
-      - url: https://blog.google/technology/ai/google-gemini-update-flash-ai-assistant-io-2024/
-        published_date: 2024-05-14
-    categories: [external-posts]
-    tags: [google]
 
 # -----------------------------------------------------------------------------
 # Newsletter
