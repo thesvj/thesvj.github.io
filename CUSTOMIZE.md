@@ -29,6 +29,14 @@ Here we will give you some tips on how to customize the website. One important t
   - [Creating new projects](#creating-new-projects)
   - [Adding some news](#adding-some-news)
   - [Adding Collections](#adding-collections)
+    - [Creating a new collection](#creating-a-new-collection)
+    - [Using frontmatter fields in your collection](#using-frontmatter-fields-in-your-collection)
+    - [Creating a teachings collection](#creating-a-teachings-collection)
+      - [Course file format](#course-file-format)
+      - [Important course collection notes](#important-course-collection-notes)
+      - [Required fields](#required-fields)
+      - [Optional fields](#optional-fields)
+    - [Collections with categories and tags](#collections-with-categories-and-tags)
   - [Adding a new publication](#adding-a-new-publication)
     - [Author annotation](#author-annotation)
     - [Buttons (through custom bibtex keywords)](#buttons-through-custom-bibtex-keywords)
@@ -38,6 +46,10 @@ Here we will give you some tips on how to customize the website. One important t
   - [Adding a newsletter](#adding-a-newsletter)
   - [Configuring search features](#configuring-search-features)
   - [Managing publication display](#managing-publication-display)
+  - [Adding a Google Calendar](#adding-a-google-calendar)
+    - [Basic usage](#basic-usage)
+    - [Enable the calendar script for your page](#enable-the-calendar-script-for-your-page)
+    - [Optional: Customize the calendar style](#optional-customize-the-calendar-style)
   - [Updating third-party libraries](#updating-third-party-libraries)
   - [Removing content](#removing-content)
     - [Removing the blog page](#removing-the-blog-page)
@@ -316,19 +328,166 @@ You can add news in the about page by adding new Markdown files in the [\_news](
 
 ## Adding Collections
 
-This Jekyll theme implements [collections](https://jekyllrb.com/docs/collections/) to let you break up your work into categories. The theme comes with three default collections: `news`, `projects`, and `books`. Items from the `news` collection are automatically displayed on the home page, while items from the `projects` collection are displayed on a responsive grid on projects page and items from the `books` collection are displayed on its own `bookshelf` page inside `submenus`.
+This Jekyll theme implements [collections](https://jekyllrb.com/docs/collections/) to let you break up your work into categories. The theme comes with three default collections: `news`, `projects`, and `books`. Items from the `news` collection are automatically displayed on the home page, while items from the `projects` collection are displayed on a responsive grid on the projects page, and items from the `books` collection are displayed on its own `bookshelf` page inside `submenus`.
 
-You can easily create your own collections, apps, short stories, courses, or whatever your creative work is. To do this, edit the collections in the [\_config.yml](_config.yml) file, create a corresponding folder, and create a landing page for your collection, similar to [\_pages/projects.md](_pages/projects.md).
+You can easily create your own collections for any type of content—teaching materials, courses, apps, short stories, or whatever suits your needs.
 
-If you wish to create a collection with support for categories and tags, like the blog posts, you just need to add this collection to the `jekyll-archives` section of your [\_config.yml](_config.yml) file. You can check how this is done with the `books` collection. For more information about customizing the archives section or creating your own archives page, check the [jekyll-archives-v2 documentation](https://george-gca.github.io/jekyll-archives-v2/).
+### Creating a new collection
 
-To access the collections, you can use the `site.COLLECTION_NAME` variable in your templates.
+To create a new collection, follow these steps. We will create a `teaching` collection, but you can replace `teaching` with any name you prefer:
+
+1. **Add the collection to `_config.yml`**
+
+   Open the `collections` section in [\_config.yml](_config.yml) and add your new collection:
+
+   ```yaml
+   collections:
+     news:
+       defaults:
+         layout: post
+       output: true
+     projects:
+       output: true
+     teaching:
+       output: true
+       permalink: /teaching/:path/
+   ```
+
+   - `output: true` makes the collection items accessible as separate pages
+   - `permalink` defines the URL path for each collection item (`:path` is replaced with the filename)
+     - Note: You can customize the [permalink structure](https://jekyllrb.com/docs/permalinks/#collections) as needed. If not set, it uses `/COLLECTION_NAME/:name/`.
+
+2. **Create a folder for your collection items**
+
+   Create a new folder in the root directory with an underscore prefix, matching your collection name. For a `teaching` collection, create `_teaching/`:
+
+   ```text
+   _teaching/
+   ├── course_1.md
+   ├── course_2.md
+   └── course_3.md
+   ```
+
+3. **Create a landing page for your collection**
+
+   Add a Markdown file in `_pages/` (e.g., `teaching.md`) that will serve as the main page for your collection. You can use [\_pages/projects.md](_pages/projects.md) or [\_pages/books.md](_pages/books.md) as a template and adapt it for your needs.
+
+   In your landing page, access your collection using the `site.COLLECTION_NAME` variable:
+
+   ```liquid
+   {% assign teaching_items = site.teaching | sort: 'date' | reverse %}
+
+   {% for item in teaching_items %}
+     <h3>{{ item.title }}</h3>
+     <p>{{ item.content }}</p>
+   {% endfor %}
+   ```
+
+   Replace `COLLECTION_NAME` with your actual collection name (e.g., `site.teaching`).
+
+4. **Add a link to your collection page**
+
+   Update [\_pages/dropdown.md](_pages/dropdown.md) or the navigation configuration in [\_config.yml](_config.yml) to add a menu link to your new page.
+
+5. **Create collection items**
+
+   Add Markdown files in your new collection folder (e.g., `_teaching/`) with appropriate frontmatter and content.
+
+For more information regarding collections, check [Jekyll official documentation](https://jekyllrb.com/docs/collections/) and [step-by=step guide](https://jekyllrb.com/docs/step-by-step/09-collections/).
+
+### Using frontmatter fields in your collection
+
+When creating items in your collection, you can define custom frontmatter fields and use them in your landing page. For example:
+
+```markdown
+---
+layout: page
+title: Introduction to Research Methods
+importance: 1
+category: methods
+---
+
+Course description and content here...
+```
+
+Then in your landing page template:
+
+```liquid
+{% if item.category == 'methods' %}
+  <span class="badge">{{ item.category }}</span>
+{% endif %}
+```
+
+### Creating a teachings collection
+
+The al-folio theme includes a pre-configured `_teachings/` collection for course pages. Each course is represented by a markdown file with frontmatter metadata. Here's how to add or modify courses:
+
+#### Course file format
+
+Create markdown files in `_teachings/` with the following structure:
+
+```yaml
+---
+layout: course
+title: Course Title
+description: Course description
+instructor: Your Name
+year: 2023
+term: Fall
+location: Room 101
+time: MWF 10:00-11:00
+course_id: course-id # This should be unique
+schedule:
+  - week: 1
+    date: Jan 10
+    topic: Introduction
+    description: Overview of course content and objectives
+    materials:
+      - name: Slides
+        url: /assets/pdf/example_pdf.pdf
+      - name: Reading
+        url: https://example.com/reading
+  - week: 2
+    date: Jan 17
+    topic: Topic 2
+    description: Description of this week's content
+---
+Additional course content, information, or resources can be added here as markdown.
+```
+
+#### Important course collection notes
+
+1. Each course file must have a unique `course_id` in the frontmatter
+2. Course files will be grouped by `year` on the teaching page
+3. Within each year, courses are sorted by `term`
+4. The content below the frontmatter (written in markdown) will appear on the individual course page
+5. The schedule section will be automatically formatted into a table
+
+#### Required fields
+
+- `layout: course` — Must be set to use the course layout
+- `title` — The course title
+- `year` — The year the course was/will be taught (used for sorting)
+- `course_id` — A unique identifier for the course
+
+#### Optional fields
+
+- `description` — A brief description of the course
+- `instructor` — The course instructor's name
+- `term` — The academic term (e.g., Fall, Spring, Summer)
+- `location` — The course location
+- `time` — The course meeting time
+- `schedule` — A list of course sessions with details
+
+### Collections with categories and tags
+
+If you want to add category and tag support (like the blog posts have), you need to configure the `jekyll-archives` section in [\_config.yml](_config.yml). See how this is done with the `books` collection for reference. For more details, check the [jekyll-archives-v2 documentation](https://george-gca.github.io/jekyll-archives-v2/).
 
 ## Adding a new publication
 
 To add publications create a new entry in the [\_bibliography/papers.bib](_bibliography/papers.bib) file. You can find the BibTeX entry of a publication in Google Scholar by clicking on the quotation marks below the publication title, then clicking on "BibTeX", or also in the conference page itself. By default, the publications will be sorted by year and the most recent will be displayed first. You can change this behavior and more in the `Jekyll Scholar` section in [\_config.yml](_config.yml) file.
 
-You can add extra information to a publication, like a PDF file in the `assets/pdfs/` directory and add the path to the PDF file in the BibTeX entry with the `pdf` field. Some of the supported fields are: `abstract`, `altmetric`, `annotation`, `arxiv`, `bibtex_show`, `blog`, `code`, `dimensions`, `doi`, `eprint`, `html`, `isbn`, `pdf`, `pmid`, `poster`, `slides`, `supp`, `video`, and `website`.
+You can add extra information to a publication, like a PDF file in the `assets/pdfs/` directory and add the path to the PDF file in the BibTeX entry with the `pdf` field. Some of the supported fields are: `abstract`, `altmetric`, `annotation`, `arxiv`, `bibtex_show`, `blog`, `code`, `dimensions`, `doi`, `eprint`, `hal`, `html`, `isbn`, `pdf`, `pmid`, `poster`, `slides`, `supp`, `video`, and `website`.
 
 ### Author annotation
 
@@ -378,6 +537,7 @@ There are several custom bibtex keywords that you can use to affect how the entr
 - `blog`: Adds a "Blog" button redirecting to the specified link
 - `code`: Adds a "Code" button redirecting to the specified link
 - `dimensions`: Adds a [Dimensions](https://www.dimensions.ai/) badge (Note: if DOI or PMID is provided just use `true`, otherwise only add the Dimensions' identifier here - the link is generated automatically)
+- `hal`: Adds a link to the HAL website (Note: only add the hal identifier (hal-xxx or tel-xxx) here - the link is generated automatically)
 - `html`: Inserts an "HTML" button redirecting to the user-specified link
 - `pdf`: Adds a "PDF" button redirecting to a specified file (if a full link is not specified, the file will be assumed to be placed in the /assets/pdf/ directory)
 - `poster`: Adds a "Poster" button redirecting to a specified file (if a full link is not specified, the file will be assumed to be placed in the /assets/pdf/ directory)
@@ -462,6 +622,45 @@ To add a thumbnail to a publication, include a `preview` field in your BibTeX en
 ```
 
 Place the image file in `assets/img/publication_preview/`.
+
+## Adding a Google Calendar
+
+You can embed a Google Calendar on any page by using the `calendar.liquid` include. The calendar will automatically adapt to light and dark themes.
+
+### Basic usage
+
+Add the following to your page's Markdown file (for example, in `_pages/teaching.md`):
+
+```liquid
+{% include calendar.liquid calendar_id='your-calendar-id@group.calendar.google.com' timezone='Your/Timezone' %}
+```
+
+Replace:
+
+- `your-calendar-id@group.calendar.google.com` with your actual Google Calendar ID (found in Google Calendar Settings → Integrate calendar → Calendar ID)
+- `Your/Timezone` with your timezone (e.g., `UTC`, `Asia/Shanghai`, `America/New_York`). The default is `UTC`.
+
+### Enable the calendar script for your page
+
+To prevent unnecessary script loading, add `calendar: true` to the frontmatter of any page that displays a calendar:
+
+```yaml
+---
+layout: page
+title: teaching
+calendar: true
+---
+```
+
+### Optional: Customize the calendar style
+
+You can optionally customize the iframe styling using the `style` parameter:
+
+```liquid
+{% include calendar.liquid calendar_id='your-calendar-id@group.calendar.google.com' timezone='UTC' style='border:0; width:100%; height:800px;' %}
+```
+
+The default style is `border:0; width:100%; height:600px;`.
 
 ## Updating third-party libraries
 

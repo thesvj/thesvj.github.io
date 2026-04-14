@@ -199,6 +199,39 @@ sass:
   style: compressed
 
 # -----------------------------------------------------------------------------
+# Jekyll Minifier
+# -----------------------------------------------------------------------------
+
+jekyll-minifier:
+  compress_javascript: false # set to false since we are using terser as the js minifier
+  exclude: ["robots.txt", "assets/js/search/*.js"]
+
+# -----------------------------------------------------------------------------
+# Terser
+# -----------------------------------------------------------------------------
+
+terser:
+  compress:
+    drop_console: true
+
+# -----------------------------------------------------------------------------
+# Jekyll Archives
+# -----------------------------------------------------------------------------
+
+jekyll-archives:
+  posts:
+    enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
+    permalinks:
+      year: "/blog/:year/"
+      tags: "/blog/:type/:name/"
+      categories: "/blog/:type/:name/"
+  books:
+    enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
+
+display_tags: [] # tags to display on the front page of your blog (leave empty to hide)
+display_categories: [] # categories to display on the front page of your blog (leave empty to hide)
+
+# -----------------------------------------------------------------------------
 # Jekyll Scholar
 # -----------------------------------------------------------------------------
 
