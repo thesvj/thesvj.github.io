@@ -38,3 +38,4 @@ Beyond research, I am a student of philosophy and history — disciplines that h
 *   **Representation Learning**
 
 I am always open to collaborations in generative AI and related areas — feel free to [reach out](mailto:saij@iiitd.ac.in).
+
