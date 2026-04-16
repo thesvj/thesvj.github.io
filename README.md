@@ -1,6 +1,6 @@
 # Personal Portfolio
 
-This is the source code for my personal portfolio, built cleanly with pure, dependency-free Vanilla HTML, CSS, and JS to maximize performance and aesthetic control.
+This is the source code for my personal portfolio, built cleanly with pure, dependency-free Vanilla HTML, CSS, and JS.
 
 Hosted automatically via [GitHub Pages](https://pages.github.com/).
 
