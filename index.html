@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Varun Jamalpoor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="light-mode">
+    <nav class="navbar fade-in">
+        <div class="nav-container">
+            <div class="logo">SVJ.</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#updates">Updates</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#experience">Experience</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero & About Combined Section -->
+        <section id="about" class="fade-in" style="padding-top: 8rem; padding-bottom: 2rem;">
+            <div class="hero-content">
+                <div class="hero-image">
+                    <img src="assets/img/sai_profile_pic.jpg" alt="Sai Varun Jamalpoor" class="profile-abstract">
+                </div>
+                <div class="hero-text">
+                    <h1 style="font-size: 3rem;">Hi, I'm Sai Varun</h1>
+                    <h2>PhD Scholar at IIIT-Delhi | Researching Multimodal Video Generation</h2>
+
+                    <div class="about-content" style="margin-bottom: 2rem;">
+                        <p>I am a Ph.D. researcher in the Applied Data Science Lab at IIIT-Delhi, advised by
+                            <strong>Prof. Mukesh Mohania</strong> and <strong>Prof. Vikram Goyal</strong>. My research
+                            lies at the intersection of multimodal learning and generative AI.</p>
+                        <br>
+                        <p>I focus on building efficient video generation models that deliver strong representation
+                            without requiring massive compute. Beyond coding, I am a passionate student of philosophy
+                            and human history—disciplines that help me think critically about the societal implications
+                            of AI.</p>
+                        <div class="interests">
+                            <span class="tag"><i class="fas fa-video"></i> Video Generation</span>
+                            <span class="tag"><i class="fas fa-eye"></i> Video Understanding</span>
+                            <span class="tag"><i class="fas fa-server"></i> Distributed Training</span>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="hero-actions">
+                        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                        <a href="assets/cv.pdf" class="btn btn-secondary" target="_blank"><i class="fas fa-download"></i> Download CV</a>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 3rem 0; clear: both;" class="fade-in">
+
+        <!-- Updates Section -->
+        <section id="updates" class="fade-in" style="padding-top: 1rem;">
+            <div class="section-header">
+                <h3>News & Updates</h3>
+                <div class="line"></div>
+            </div>
+            <div class="updates-list">
+                <div class="update-item">
+                    <span class="update-date">Aug 2025</span>
+                    <p>Admitted to the Ph.D. program at <strong>IIIT-Delhi</strong>. Joining the Applied Data Science
+                        Lab.</p>
+                </div>
+                <div class="update-item">
+                    <span class="update-date">May 2025</span>
+                    <p>Graduated with my M.Tech. in Machine Learning and Computing from IIST Trivandrum.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section & Applied Works -->
+        <section id="research" class="fade-in">
+            <div class="section-header">
+                <h3>Research Directions</h3>
+                <div class="line"></div>
+            </div>
+            <div class="research-grid">
+                <div class="card">
+                    <h4>Efficient Temporal Consistency</h4>
+                    <div class="pai-framework">
+                        <p><strong>Problem:</strong> High-fidelity video generation historically requires overwhelming
+                            compute clusters.</p>
+                        <p><strong>Approach:</strong> Investigating compact, expressive representations that decouple
+                            spatial and temporal rendering.</p>
+                        <p><strong>Impact:</strong> Aiming to democratize generative ML by making training highly
+                            accessible.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Multimodal Abstract Alignments</h4>
+                    <div class="pai-framework">
+                        <p><strong>Problem:</strong> Standard models fail to align dense visual video cues with abstract
+                            language reasoning.</p>
+                        <p><strong>Approach:</strong> Exploring robust representation learning systems for deep
+                            cross-modal consistency.</p>
+                        <p><strong>Impact:</strong> Enabling deep video-understanding models capable of complex
+                            contextual inference.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="fade-in">
+            <div class="section-header">
+                <h3>Education & Experience</h3>
+                <div class="line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2025 - Present</div>
+                    <div class="timeline-content">
+                        <h4>Ph.D. Scholar</h4>
+                        <h5><i class="fas fa-university"></i> IIIT-Delhi</h5>
+                        <p>Researching massive-scale AI systems for video generation and efficient multi-GPU
+                            infrastructure optimization. Mentoring students in core computer science tutorials.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 - 2025</div>
+                    <div class="timeline-content">
+                        <h4>M.Tech. Machine Learning and Computing</h4>
+                        <h5><i class="fas fa-university"></i> IIST Trivandrum</h5>
+                        <p>Completed highly advanced coursework in fundamental machine learning algorithms and
+                            computational theories under Prof. Deepak Mishra.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2018 - 2022</div>
+                    <div class="timeline-content">
+                        <h4>B.Tech. Computer Science and Engineering</h4>
+                        <h5><i class="fas fa-university"></i> KNR College of Engineering</h5>
+                        <p>Developed core engineering principles and software architecture foundations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Peak-End Rule: Reflection & Contact -->
+        <section id="contact" class="fade-in">
+            <div class="contact-box">
+                <h3 style="margin-bottom: 1.5rem; color: var(--text-primary); font-size: 2.25rem;">"Compact, Expressive
+                    Representations."</h3>
+                <p>I believe philosophical principles and human history should guide AI development. I am currently open
+                    to collaborations concerning scalable training infrastructures and representation learning.</p>
+                <div style="margin: 3rem 0;">
+                    <a href="mailto:saij@iiitd.ac.in" class="btn btn-primary contact-mail"
+                        style="font-size: 1.15rem; padding: 1.25rem 3rem;"><i class="fas fa-paper-plane"></i> Contact Me
+                        Directly</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sai Varun Jamalpoor. Built efficiently.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
