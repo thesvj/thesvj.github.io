@@ -12,3 +12,10 @@ node_modules/
 vendor
 .idea
 .venv
+
+# AI Agent Skills (Junctions)
+.claude/skills
+.antigravity/skills
+.github/skills
+.agents/skills
+
