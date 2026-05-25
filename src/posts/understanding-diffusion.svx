@@ -1,0 +1,358 @@
+---
+title: "Understanding Diffusion Models"
+description: "Building up diffusion models from scratch — the math, the intuition, and interactive visualizations."
+date: "2026-05-06"
+tag: "Deep Learning"
+interactive: true
+readTime: "25 min"
+published: true
+featured: true
+---
+
+<script>
+  import DiffusionVisualizer from '$lib/components/understanding-diffusion/DiffusionVisualizer.svelte';
+  import ReverseDiffusionVisualizer from '$lib/components/understanding-diffusion/ReverseDiffusionVisualizer.svelte';
+  import ScoreVisualizer from '$lib/components/understanding-diffusion/ScoreVisualizer.svelte';
+  import NoiseScheduleVisualizer from '$lib/components/understanding-diffusion/NoiseScheduleVisualizer.svelte';
+  import NoiseCompassVisualizer from '$lib/components/understanding-diffusion/NoiseCompassVisualizer.svelte';
+  import FlowVisualizer from '$lib/components/understanding-diffusion/FlowVisualizer.svelte';
+</script>
+
+When Stable Diffusion generates a photorealistic image from a text prompt, or Sora produces a video clip from scratch, the engine underneath is the same: a diffusion model that turns pure noise into structured data, one small step at a time.
+
+The core challenge of generative modeling is mapping a simple, easy-to-sample distribution (like standard Gaussian noise) to a highly complex distribution (like the manifold of natural images).
+
+Direct mapping methods, such as Generative Adversarial Networks (GANs), try to achieve this transformation in a single step. However, mapping a simple Gaussian space to a complex, discontinuous image manifold is highly non-linear and unstable, leading to optimization problems like mode collapse.
+
+Diffusion models sidestep this by breaking the journey into $T$ microscopic, tractable steps. Instead of asking a neural network to generate a clean image from pure noise in one giant leap, we train it to perform a series of tiny denoising steps, making the learning objective stable and robust.
+
+---
+
+## 1. The Thermodynamics of an Ink Drop
+
+To understand the core intuition of diffusion, we can look at a simple physical analogy: **dropping a molecule of blue ink into a glass of still water**.
+
+Initially, the ink is concentrated in a highly structured drop. As time passes, the ink molecules collide randomly with water molecules in a chaotic trajectory known as Brownian motion. Over time, the ink spreads out until the water is a uniform blue. In physics, the Second Law of Thermodynamics states that this process is natural and one-way: entropy increases, and structure is destroyed.
+
+Running this movie backward—forcing the pale blue water to assemble back into a concentrated drop of ink—seems impossible because it requires calculating the backward trajectories of all colliding water molecules. 
+
+Diffusion models do exactly this. They act as a **time-reversal operator**. By observing millions of noise-injection steps, a neural network learns the local corrective force needed to reverse chaotic collisions and guide unstructured noise back into structure.
+
+---
+
+## 2. The Forward Process: Destroying Information
+
+We formalize the destruction of structure by defining a Markov chain that systematically adds Gaussian noise to a clean data sample $x_0 \sim q(x)$ over $T$ discrete timesteps [1, 2]. 
+
+The transition from timestep $t-1$ to $t$ is governed by a variance schedule $\beta_1, \beta_2, \dots, \beta_T$:
+
+$$
+q(x_t | x_{t-1}) = \mathcal{N}(x_t; \sqrt{1 - \beta_t} x_{t-1}, \beta_t \mathbf{I})
+$$
+
+### Parameter Breakdown
+*   $x_{t-1}$: The state of the image at the previous step.
+*   $\beta_t \in (0, 1)$: The variance of the noise injected at step $t$.
+*   $\sqrt{1 - \beta_t}$: The attenuation factor. This slightly shrinks the signal from the previous step.
+*   $\mathbf{I}$: The identity matrix, signifying that noise is added independently to every pixel.
+
+**Why shrink the signal by $\sqrt{1 - \beta_t}$?**  
+If we did not shrink the signal and simply added noise ($x_t = x_{t-1} + \epsilon$), the variance of the image would grow infinitely at each step. By scaling the previous image by $\sqrt{1 - \beta_t}$, we preserve a stationary variance:
+
+$$
+\text{Var}(x_t) = (\sqrt{1 - \beta_t})^2 \text{Var}(x_{t-1}) + \beta_t \text{Var}(\epsilon) = (1 - \beta_t)(1) + \beta_t(1) = 1
+$$
+
+This ensures that the total variance remains normalized to $1$ throughout the entire forward process, even as the content dissolves into noise. As $t \to T$, the image converges to an isotropic Gaussian distribution: $x_T \sim \mathcal{N}(0, \mathbf{I})$. **Try it:** drag the slider all the way to the right — watch how the figure-8 structure dissolves into formless noise (**Figure 1**).
+
+<DiffusionVisualizer />
+
+### The Jumping Trick (Reparameterization)
+To train a model, we need to generate noisy images at arbitrary timesteps $t$. If we had to run the Markov chain step-by-step ($x_0 \to x_1 \to x_2 \to \dots \to x_t$), training would be slow.
+
+We can solve this recursively. Let $\alpha_t = 1 - \beta_t$. We rewrite the transitions using the reparameterization trick:
+
+$$
+x_t = \sqrt{\alpha_t} x_{t-1} + \sqrt{1 - \alpha_t} \epsilon_{t-1} \quad \text{where } \epsilon_{t-1} \sim \mathcal{N}(0, \mathbf{I})
+$$
+
+Expanding this recursively:
+
+$$
+x_t = \sqrt{\alpha_t} \left( \sqrt{\alpha_{t-1}} x_{t-2} + \sqrt{1 - \alpha_{t-1}} \epsilon_{t-2} \right) + \sqrt{1 - \alpha_t} \epsilon_{t-1}
+$$
+$$
+x_t = \sqrt{\alpha_t \alpha_{t-1}} x_{t-2} + \sqrt{\alpha_t(1 - \alpha_{t-1})} \epsilon_{t-2} + \sqrt{1 - \alpha_t} \epsilon_{t-1}
+$$
+
+Because the sum of two independent Gaussians $X \sim \mathcal{N}(0, \sigma_1^2 \mathbf{I})$ and $Y \sim \mathcal{N}(0, \sigma_2^2 \mathbf{I})$ is a new Gaussian $Z \sim \mathcal{N}(0, (\sigma_1^2 + \sigma_2^2) \mathbf{I})$, we merge the noise terms. The combined variance is:
+
+$$
+\text{Var} = \alpha_t(1 - \alpha_{t-1}) + (1 - \alpha_t) = \alpha_t - \alpha_t \alpha_{t-1} + 1 - \alpha_t = 1 - \alpha_t \alpha_{t-1}
+$$
+
+Thus, we simplify to:
+
+$$
+x_t = \sqrt{\alpha_t \alpha_{t-1}} x_{t-2} + \sqrt{1 - \alpha_t \alpha_{t-1}} \bar{\epsilon} \quad \text{where } \bar{\epsilon} \sim \mathcal{N}(0, \mathbf{I})
+$$
+
+Repeating this recursion all the way back to $x_0$ yields the closed-form transition formula:
+
+$$
+q(x_t | x_0) = \mathcal{N}(x_t; \sqrt{\bar{\alpha}_t} x_0, (1 - \bar{\alpha}_t) \mathbf{I})
+$$
+
+where $\bar{\alpha}_t = \prod_{s=1}^t \alpha_s$. This closed-form property allows us to jump to any noise level during training instantly:
+
+$$
+x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1 - \bar{\alpha}_t} \epsilon
+$$
+
+---
+
+## 3. The Reverse Process: Reconstructing Order
+
+To generate new data, we need to run the process in reverse: sample $q(x_{t-1} | x_t)$.
+By Bayes' rule, the reverse transition is:
+
+$$
+q(x_{t-1} | x_t) = q(x_t | x_{t-1}) \frac{q(x_{t-1})}{q(x_t)}
+$$
+
+Here lies the problem: the term $q(x_t)$ is the probability density of a noisy image at step $t$. To compute this, we must integrate over all possible clean images in the data distribution:
+
+$$
+q(x_t) = \int q(x_t | x_0) q(x_0) dx_0
+$$
+
+This integral is completely intractable. To evaluate it, a model would need to know the density of all possible natural images in the universe.
+
+However, if the step size $\beta_t$ is sufficiently small, the reverse transition $q(x_{t-1}|x_t)$ is also Gaussian. While we cannot compute this true distribution, we can train a neural network $p_\theta(x_{t-1}|x_t)$ to approximate it [2]:
+
+$$
+p_\theta(x_{t-1} | x_t) = \mathcal{N}(x_{t-1}; \mu_\theta(x_t, t), \Sigma_\theta(x_t, t))
+$$
+
+The network takes the noisy image $x_t$ and the current timestep $t$ as input, estimating the mean $\mu_\theta$ and covariance $\Sigma_\theta$ to step backward toward structure. **Try it:** start with the slider at the far left (pure noise) and drag right — each position corresponds to one step of the reverse chain recovering the manifold (**Figure 2**).
+
+<ReverseDiffusionVisualizer />
+
+---
+
+## 4. Deriving the Variational Lower Bound (ELBO)
+
+To train our neural network, we want to maximize the log-likelihood of our data: $\log p_\theta(x_0)$ [1, 2]. Since computing this directly is intractable, we optimize the Variational Lower Bound (ELBO).
+
+Think of the ELBO as a proxy. Instead of maximizing the peak of a mountain directly (which is hidden behind clouds), we construct a lower floor (a deck) that is guaranteed to sit below the mountain. If we push this floor as high as possible, it forces the mountain peak up with it.
+
+We start by expressing the negative log-likelihood:
+
+$$
+-\log p_\theta(x_0) = -\log \int p_\theta(x_{0:T}) dx_{1:T}
+$$
+
+We introduce the auxiliary distribution $q(x_{1:T} | x_0)$ representing the forward trajectory:
+
+$$
+-\log p_\theta(x_0) = -\log \int q(x_{1:T} | x_0) \frac{p_\theta(x_{0:T})}{q(x_{1:T} | x_0)} dx_{1:T}
+$$
+
+Using Jensen's Inequality (since the negative logarithm is a convex function, $-\log \mathbb{E}[X] \leq \mathbb{E}[-\log X]$):
+
+$$
+-\log p_\theta(x_0) \leq \mathbb{E}_{q(x_{1:T}|x_0)} \left[ -\log \frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)} \right] = \mathbb{E}_{q} \left[ \log \frac{q(x_{1:T}|x_0)}{p_\theta(x_{0:T})} \right]
+$$
+
+By expanding the joint distributions of both chains:
+*   Forward chain: $q(x_{1:T} | x_0) = \prod_{t=1}^T q(x_t | x_{t-1})$
+*   Reverse chain: $p_\theta(x_{0:T}) = p(x_T) \prod_{t=1}^T p_\theta(x_{t-1} | x_t)$
+
+and substituting them into the fraction, algebraic cancellations (using Bayes' rule to rewrite $q(x_t | x_{t-1})$ in terms of the posterior $q(x_{t-1}|x_t, x_0)$) yields:
+
+$$
+L = \mathbb{E}_{q} \left[ D_{KL}(q(x_T|x_0) \,\|\, p(x_T)) + \sum_{t=2}^T D_{KL}(q(x_{t-1}|x_t, x_0) \,\|\, p_\theta(x_{t-1}|x_t)) - \log p_\theta(x_0|x_1) \right]
+$$
+
+### Breaking Down the Terms: What do they actually do?
+1.  **Prior Matching ($L_T = D_{KL}(q(x_T|x_0) \,\|\, p(x_T))$):** Compares the final noise level with standard Gaussian noise. Since the forward schedule is fixed, this term contains no parameters and is ignored during training.
+2.  **Denoising Transitions ($L_{t-1} = D_{KL}(q(x_{t-1}|x_t, x_0) \,\|\, p_\theta(x_{t-1}|x_t))$):** Compares our model's step $p_\theta(x_{t-1}|x_t)$ with the posterior $q(x_{t-1}|x_t, x_0)$. Crucially, $q(x_{t-1}|x_t, x_0)$ is computable because it is conditioned on the clean image $x_0$. If we know where the particle started, we can calculate where it came from in the previous step:
+    
+    $$
+    q(x_{t-1} | x_t, x_0) = \mathcal{N}(x_{t-1}; \tilde{\mu}_t(x_t, x_0), \tilde{\beta}_t \mathbf{I})
+    $$
+    
+    Our model only needs to predict the mean $\tilde{\mu}_t(x_t, x_0)$.
+3.  **Reconstruction ($L_0 = -\log p_\theta(x_0 | x_1)$):** Measures how well the model reconstructs the exact original pixels at the final step ($t=1 \to 0$).
+
+---
+
+## 5. The Noise Compass and the Score Function
+
+To train the model to predict the mean, we write the mathematical definition of the true posterior mean $\tilde{\mu}(x_t, x_0)$:
+
+$$
+\tilde{\mu}_t(x_t, x_0) = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{\beta_t}{\sqrt{1 - \bar{\alpha}_t}} \epsilon \right)
+$$
+
+where $\epsilon$ is the noise vector added to $x_0$. Since our neural network's mean $\mu_\theta$ is trying to match this, we reparameterize $\mu_\theta$ to match this exact structure:
+
+$$
+\mu_\theta(x_t, t) = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{\beta_t}{\sqrt{1 - \bar{\alpha}_t}} \epsilon_\theta(x_t, t) \right)
+$$
+
+where $\epsilon_\theta(x_t, t)$ is a neural network trained to predict the noise $\epsilon$. This simplifies our loss function to a Mean-Squared Error [2]:
+
+$$
+L_{simple}(\theta) = \mathbb{E}_{t, x_0, \epsilon} \left[ \| \epsilon - \epsilon_\theta(x_t, t) \|^2 \right]
+$$
+
+### Physical Intuition: The Noise Compass
+
+Think about what this reparameterization represents. If you are lost in a dense forest (the data manifold) and walk $10$ steps in a random direction (adding noise $\epsilon$), you do not need to rebuild the entire forest from memory to get back. You only need a compass that tells you: *'You walked $10$ steps north-east. To get back, walk $10$ steps south-west.'*
+
+Predicting the noise $\epsilon$ is exactly like predicting the direction of the step you took. By training a network to predict the noise, we are training a **noise compass** that points back to the data manifold. **Try it:** click anywhere in the visualization to place the noisy point $x_t$, then lower the accuracy slider to see how an imprecise prediction misses the manifold (**Figure 3**).
+
+<NoiseCompassVisualizer />
+
+### The Score Function
+
+In statistical physics, this noise compass is called **The Score Function**, defined as the gradient of the log-density: $\nabla_x \log p(x)$ [3, 7]. This vector field points in the direction of the steepest increase in data density.
+
+Minimizing the noise-prediction MSE is mathematically equivalent to **Denoising Score Matching** [3]. The predicted noise is proportional to the negative score:
+
+$$
+\epsilon_\theta(x_t, t) \approx -\sqrt{1 - \bar{\alpha}_t} \nabla_{x_t} \log q(x_t)
+$$
+
+**Try it:** set the noise level to maximum, then slowly drag left — notice how the diffuse, long-range arrows sharpen into precise gradients pointing directly at the manifold (**Figure 4**).
+
+<ScoreVisualizer />
+
+When the noise level is high ($t \to T$), the score field is smooth and diffuse, guiding particles from far away toward the general shape. When the noise level is low ($t \to 0$), the score field becomes sharp and local, carving out fine, intricate details.
+
+---
+
+## 6. Training and Sampling Algorithms
+
+Here is how you would implement training and sampling in practice, written in clean, step-by-step engineering logic. In the sampling loop, `sigma[t]` is the reverse-process noise standard deviation — typically $\sigma_t = \sqrt{\beta_t}$ for the simple case, or $\sigma_t = \sqrt{\tilde{\beta}_t}$ for the posterior-optimal variance derived in Section 4.
+
+```python
+# Algorithm 1: Training Loop
+def train_step(x_0):
+    # 1. Sample a random timestep from 1 to T
+    t = sample_uniform(1, T)
+    
+    # 2. Sample random Gaussian noise
+    epsilon = sample_gaussian_like(x_0)
+    
+    # 3. Compute the noisy image x_t using the Jumping Trick
+    x_t = sqrt(alpha_bar[t]) * x_0 + sqrt(1 - alpha_bar[t]) * epsilon
+    
+    # 4. Predict the noise using the neural network
+    predicted_noise = network(x_t, t)
+    
+    # 5. Compute mean squared error loss
+    loss = mean_squared_error(epsilon, predicted_noise)
+    
+    # 6. Take gradient step to minimize loss
+    optimizer.step(loss)
+```
+
+```python
+# Algorithm 2: Sampling Loop (Reverse Generation)
+def generate_sample():
+    # 1. Start with pure Gaussian noise
+    x = sample_gaussian(shape)
+    
+    # 2. Iterate backward from T down to 1
+    for t in reversed(range(1, T + 1)):
+        # Sample standard Gaussian noise (z = 0 if t = 1)
+        z = sample_gaussian_like(x) if t > 1 else zeros_like(x)
+        
+        # Predict the noise vector
+        predicted_noise = network(x, t)
+        
+        # Calculate the mean of the previous step x_(t-1)
+        mean = (1 / sqrt(alpha[t])) * (x - (beta[t] / sqrt(1 - alpha_bar[t])) * predicted_noise)
+        
+        # Add scaled noise to step backward stochastically
+        variance = sigma[t] * z
+        x = mean + variance
+        
+    return x # Clean reconstructed image x_0
+```
+
+---
+
+## 7. The Continuous-Time SDE & ODE View
+
+What happens if we make the time steps infinitely small ($T \to \infty$)?
+The discrete Markov chain converges to a continuous path described by a **Stochastic Differential Equation (SDE)** [3]:
+
+$$
+dx = f(x, t)dt + g(t)dw
+$$
+
+where:
+*   $dt$ represents an infinitesimal step forward in time.
+*   $dw$ represents Brownian motion (continuous white noise).
+*   $f(x, t)$ is the drift term, which pushes the particles in a deterministic direction.
+*   $g(t)$ is the diffusion coefficient, representing the strength of the noise added.
+
+By the reverse-time theorem derived by Anderson [5], if we know the forward SDE and can estimate the score function $\nabla_x \log p_t(x)$, the reverse-time SDE is:
+
+$$
+dx = \left[ f(x, t) - g(t)^2 \nabla_x \log p_t(x) \right] dt + g(t)d\bar{w}
+$$
+
+where $d\bar{w}$ is a backward Brownian motion. Generating data is equivalent to integrating this SDE backward in time.
+
+### The Probability Flow ODE
+A remarkable mathematical consequence is that for this stochastic path, there exists a deterministic sibling called the **Probability Flow ODE** [3]:
+
+$$
+dx = \left[ f(x, t) - \frac{1}{2} g(t)^2 \nabla_x \log p_t(x) \right] dt
+$$
+
+This ODE shares the exact same marginal probability densities $p_t(x)$ as the SDE at every point in time, but contains no noise.
+1.  **Deterministic Mapping:** Every noise vector $x_T$ maps deterministically to a single, unique data point $x_0$.
+2.  **Fast Sampling:** Since it is an ODE, we can use adaptive-step numerical ODE solvers (like Runge-Kutta) to synthesize samples in $10$ to $20$ steps instead of $1000$ stochastic steps.
+3.  **Flow Matching [6]:** This formulation is the basis of modern **Flow Matching** architectures. Rather than modeling noise addition, flow matching defines a straight velocity vector field directly connecting noise to data, accelerating convergence. **Try it:** click "Simulate Trajectories" in both ODE and SDE modes — in ODE mode the paths never cross; in SDE mode, stochastic noise causes visible branching (**Figure 5**).
+
+<FlowVisualizer />
+
+---
+
+## 8. Noise Scheduling: Linear vs. Cosine
+
+The variance schedule controls the rate of signal decay. The choice of this schedule has a massive impact on generation quality.
+
+*   **Linear Schedule [2]:** $\beta_t$ scales linearly from $\beta_1 = 10^{-4}$ to $\beta_T = 0.02$. While effective for low-resolution datasets like CIFAR-10, it decays the signal too quickly in the early steps on high-resolution images, destroying fine details before the network can learn to map them.
+*   **Cosine Schedule [4]:** Defines $\bar{\alpha}_t$ using a squared cosine function:
+    
+    $$
+    \bar{\alpha}_t = \frac{f(t)}{f(0)}, \quad f(t) = \cos^2\left(\frac{t/T + s}{1 + s} \cdot \frac{\pi}{2}\right)
+    $$
+    
+    where $s$ is a small offset (typically $0.008$) to prevent $\beta_t$ from becoming too small at $t=0$. This schedule ensures a smooth, gradual loss of information, preserving high-frequency features (like edges and textures) deep into the forward chain. **Try it:** drag to $t \approx 0.3$ — the linear schedule (blue) has already dissolved most structure, while the cosine schedule (coral) still holds the shape (**Figure 6**).
+
+<NoiseScheduleVisualizer />
+
+---
+
+## Conclusion
+
+The elegance of diffusion lies in framing an intractable generative mapping problem as a sequence of tractable, linear regressions. By establishing the mathematical equivalence between predicting Gaussian noise and estimating the score function of a data distribution, diffusion models offer a robust, theoretically grounded architecture that gracefully sidesteps the training instabilities of prior generative frameworks.
+
+---
+
+### References
+
+1. Sohl-Dickstein, J., Weiss, E., Maheswaranathan, N., & Ganguli, S. (2015). *Deep Unsupervised Learning using Nonequilibrium Thermodynamics.* Proceedings of the 32nd International Conference on Machine Learning (ICML).
+2. Ho, J., Jain, A., & Abbeel, P. (2020). *Denoising Diffusion Probabilistic Models.* Advances in Neural Information Processing Systems (NeurIPS).
+3. Song, Y., Sohl-Dickstein, J., Kingma, D. P., Kumar, A., Ermon, S., & Poole, B. (2020). *Score-Based Generative Modeling through Stochastic Differential Equations.* International Conference on Learning Representations (ICLR).
+4. Nichol, A. Q., & Dhariwal, P. (2021). *Improved Denoising Diffusion Probabilistic Models.* International Conference on Learning Representations (ICLR).
+5. Anderson, B. D. O. (1982). *Reverse-time stochastic differential equations.* Stochastic Processes and their Applications, 12(3), 313-326.
+6. Lipman, Y., Chen, R. T. Q., Ben-Hamu, H., Nicklas, M., & Le, M. (2022). *Flow Matching for Generative Modeling.* International Conference on Learning Representations (ICLR).
+7. Song, Y., & Ermon, S. (2019). *Generative Modeling by Estimating Gradients of the Data Distribution in Noise-Conditioned Score Networks.* Advances in Neural Information Processing systems (NeurIPS).
