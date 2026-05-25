@@ -42,6 +42,39 @@
 
 <svelte:head>
 	<title>Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi</title>
+	<link rel="canonical" href="https://thesvj.github.io/" />
+	<meta name="description" content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models." />
+
+	<!-- Open Graph -->
+	<meta property="og:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
+	<meta property="og:description" content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models." />
+	<meta property="og:url" content="https://thesvj.github.io/" />
+	<meta property="og:type" content="profile" />
+
+	<!-- Twitter -->
+	<meta name="twitter:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
+	<meta name="twitter:description" content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling." />
+
+	<!-- JSON-LD: Person -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Sai Varun Jamalpoor",
+		"url": "https://thesvj.github.io",
+		"image": "https://thesvj.github.io/profile_avatar.jpg",
+		"jobTitle": "PhD Scholar",
+		"affiliation": {
+			"@type": "CollegeOrUniversity",
+			"name": "IIIT-Delhi",
+			"url": "https://www.iiitd.ac.in"
+		},
+		"email": "saij@iiitd.ac.in",
+		"sameAs": [
+			"https://github.com/thesvj",
+			"https://x.com/saij_029",
+			"https://www.linkedin.com/in/sai-varun-jamalpoor-1020b1285/"
+		]
+	})}</script>`}
 </svelte:head>
 
 <div class="container main-layout-wrap">

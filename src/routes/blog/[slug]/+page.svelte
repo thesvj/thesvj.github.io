@@ -61,7 +61,41 @@
 
 <svelte:head>
 	<title>{data.meta?.title ?? 'Post'} — Eigenframe</title>
+	<link rel="canonical" href="https://thesvj.github.io/blog/{data.slug}" />
 	<meta name="description" content={data.meta?.description ?? ''} />
+
+	<!-- Open Graph: Article -->
+	<meta property="og:title" content="{data.meta?.title ?? 'Post'} — Eigenframe" />
+	<meta property="og:description" content={data.meta?.description ?? ''} />
+	<meta property="og:url" content="https://thesvj.github.io/blog/{data.slug}" />
+	<meta property="og:type" content="article" />
+	{#if data.meta?.date}
+		<meta property="article:published_time" content={data.meta.date} />
+	{/if}
+	<meta property="article:author" content="Sai Varun Jamalpoor" />
+
+	<!-- Twitter -->
+	<meta name="twitter:title" content="{data.meta?.title ?? 'Post'} — Eigenframe" />
+	<meta name="twitter:description" content={data.meta?.description ?? ''} />
+
+	<!-- JSON-LD: Article -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": data.meta?.title ?? '',
+		"description": data.meta?.description ?? '',
+		"datePublished": data.meta?.date ?? '',
+		"url": `https://thesvj.github.io/blog/${data.slug}`,
+		"author": {
+			"@type": "Person",
+			"name": "Sai Varun Jamalpoor",
+			"url": "https://thesvj.github.io"
+		},
+		"publisher": {
+			"@type": "Person",
+			"name": "Sai Varun Jamalpoor"
+		}
+	})}</script>`}
 </svelte:head>
 
 <div class="progress-bar" style:width={progress + '%'}></div>

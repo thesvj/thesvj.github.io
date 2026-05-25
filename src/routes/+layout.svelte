@@ -8,6 +8,24 @@
 
 <svelte:head>
 	<meta name="color-scheme" content="light dark" />
+
+	<!-- Default SEO — pages override these in their own <svelte:head> -->
+	<meta name="description" content="Sai Varun Jamalpoor — PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling." />
+	<meta name="author" content="Sai Varun Jamalpoor" />
+	<meta name="robots" content="index, follow" />
+
+	<!-- Open Graph defaults -->
+	<meta property="og:site_name" content="Sai Varun Jamalpoor" />
+	<meta property="og:type" content="website" />
+	<meta property="og:image" content="https://thesvj.github.io/profile_avatar.jpg" />
+	<meta property="og:image:alt" content="Sai Varun Jamalpoor" />
+
+	<!-- Twitter / X Card defaults -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@saij_029" />
+	<meta name="twitter:creator" content="@saij_029" />
+	<meta name="twitter:image" content="https://thesvj.github.io/profile_avatar.jpg" />
+
 	<script>
 		(function () {
 			const savedTheme = localStorage.getItem('theme');

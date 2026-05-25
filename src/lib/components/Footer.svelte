@@ -1,5 +1,8 @@
 <script lang="ts">
 	const year = new Date().getFullYear();
+
+	// Get your hash at https://clustrmaps.com — paste it here after registering thesvj.github.io
+	const CLUSTRMAPS_HASH = '';
 </script>
 
 <footer class="footer">
@@ -22,6 +25,16 @@
 
 		<div class="copy">© {year} Sai Varun Jamalpoor</div>
 	</div>
+
+	{#if CLUSTRMAPS_HASH}
+		<div class="visitor-map">
+			<script
+				type="text/javascript"
+				id="clustrmaps"
+				src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=200&t=n&d={CLUSTRMAPS_HASH}&co=1a1a2e&ct=808080&cmo=3acc3a&cmn=ff5353"
+			></script>
+		</div>
+	{/if}
 </footer>
 
 <style>
@@ -79,6 +92,13 @@
 		font-family: var(--mono);
 		font-size: 11px;
 		color: var(--text-faint);
+	}
+
+	.visitor-map {
+		display: flex;
+		justify-content: center;
+		padding: 1rem 0 0.5rem;
+		opacity: 0.7;
 	}
 
 	@media (max-width: 640px) {
