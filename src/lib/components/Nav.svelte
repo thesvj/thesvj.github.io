@@ -36,30 +36,7 @@
 	}
 
 	onMount(() => {
-		const savedTheme = localStorage.getItem('theme');
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-		if (savedTheme) {
-			theme = savedTheme;
-		} else {
-			theme = mediaQuery.matches ? 'dark' : 'light';
-		}
-
-		const handleThemeChange = (e: MediaQueryListEvent) => {
-			if (!localStorage.getItem('theme')) {
-				theme = e.matches ? 'dark' : 'light';
-				if (e.matches) {
-					document.documentElement.classList.add('dark');
-					document.documentElement.classList.remove('light');
-				} else {
-					document.documentElement.classList.add('light');
-					document.documentElement.classList.remove('dark');
-				}
-			}
-		};
-
-		mediaQuery.addEventListener('change', handleThemeChange);
-		return () => mediaQuery.removeEventListener('change', handleThemeChange);
+		theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
 	});
 
 	function toggleTheme() {

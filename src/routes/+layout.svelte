@@ -28,9 +28,8 @@
 
 	<script>
 		(function () {
-			const savedTheme = localStorage.getItem('theme');
-			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-			if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+			// Light is the default — only go dark if user explicitly chose it
+			if (localStorage.getItem('theme') === 'dark') {
 				document.documentElement.classList.add('dark');
 				document.documentElement.classList.remove('light');
 			} else {
