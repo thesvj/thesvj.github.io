@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<meta name="color-scheme" content="light dark" />
+	<meta name="color-scheme" content="light" />
 
 	<!-- Default SEO — pages override these in their own <svelte:head> -->
 	<meta name="description" content="Sai Varun Jamalpoor — PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling." />
@@ -27,16 +27,9 @@
 	<meta name="twitter:image" content="https://thesvj.github.io/profile_avatar.jpg" />
 
 	<script>
-		(function () {
-			// Light is the default — only go dark if user explicitly chose it
-			if (localStorage.getItem('theme') === 'dark') {
-				document.documentElement.classList.add('dark');
-				document.documentElement.classList.remove('light');
-			} else {
-				document.documentElement.classList.add('light');
-				document.documentElement.classList.remove('dark');
-			}
-		})();
+		if (localStorage.getItem('theme') === 'dark') {
+			document.documentElement.classList.add('dark');
+		}
 	</script>
 </svelte:head>
 
