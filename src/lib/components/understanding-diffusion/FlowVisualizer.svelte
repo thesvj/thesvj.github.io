@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
 	let isSDE = $state(false); // Mode: false = ODE, true = SDE
 	let progress = $state(0); // Animation progress from 0 to 1
@@ -46,7 +47,7 @@
 		});
 	}
 
-	let paths = $derived(generatePaths(isSDE));
+	let paths = $derived(browser ? generatePaths(isSDE) : []);
 
 	// Animation logic
 	function startAnimation() {

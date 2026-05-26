@@ -1,25 +1,29 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	let t = $state(0); // Time from 0 to 1
 
 	// Generate 400 points in a Figure-8 shape (Lemniscate of Bernoulli)
 	const N = 400;
-	const points = Array.from({ length: N }, (_, i) => {
-		const angle = (i / N) * Math.PI * 2;
-		const x0 = (Math.cos(angle) * 100) / (1 + Math.sin(angle) ** 2);
-		const y0 = (Math.sin(angle) * Math.cos(angle) * 100) / (1 + Math.sin(angle) ** 2);
+	const points = browser
+		? Array.from({ length: N }, (_, i) => {
+				const angle = (i / N) * Math.PI * 2;
+				const x0 = (Math.cos(angle) * 100) / (1 + Math.sin(angle) ** 2);
+				const y0 = (Math.sin(angle) * Math.cos(angle) * 100) / (1 + Math.sin(angle) ** 2);
 
-		// Static Gaussian noise for this point
-		const u1 = Math.random();
-		const u2 = Math.random();
-		const z0 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.cos(2.0 * Math.PI * u2);
-		const z1 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.sin(2.0 * Math.PI * u2);
+				// Static Gaussian noise for this point
+				const u1 = Math.random();
+				const u2 = Math.random();
+				const z0 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.cos(2.0 * Math.PI * u2);
+				const z1 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.sin(2.0 * Math.PI * u2);
 
-		// Scale noise to roughly match the domain size (-100 to 100)
-		const noiseX = z0 * 50;
-		const noiseY = z1 * 50;
+				// Scale noise to roughly match the domain size (-100 to 100)
+				const noiseX = z0 * 50;
+				const noiseY = z1 * 50;
 
-		return { x0, y0, noiseX, noiseY };
-	});
+				return { x0, y0, noiseX, noiseY };
+			})
+		: [];
 
 	// Calculate positions at time t
 	// We use a cosine schedule approximation for alpha_bar
