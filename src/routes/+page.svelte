@@ -39,21 +39,42 @@
 		});
 	}
 
-	const nameVariants = [
-		'Sai Jamalpoor',
-		'Saivarun Jamalpur',
-		'Saivarun',
-		'SVJ',
-		'Sai Varun IIITD',
-		'Jamalpoor Sai Varun',
-		'Jamalpur Saivarun',
-		'Sai Varun'
+	const canonicalName = 'Sai Varun Jamalpoor';
+	const canonicalSurname = 'Jamalpoor';
+	const alternateSurnames = ['Jamalpur'];
+	const surnameVariants = (surname: string, includeInstitutionVariant = false) => [
+		`Saivarun ${surname}`,
+		`Sai ${surname}`,
+		`Varun ${surname}`,
+		`Sai V ${surname}`,
+		`S V ${surname}`,
+		...(includeInstitutionVariant ? [`Sai Varun ${surname} IIITD`] : []),
+		`${surname} Sai Varun`,
+		`${surname} Saivarun`
 	];
+
+	const nameVariants = Array.from(
+		new Set([
+			'Sai Varun',
+			'Saivarun',
+			'Sai Varun J',
+			'Sai V',
+			'SVJ',
+			'S V J',
+			'Sai Varun IIITD',
+			'Sai Varun IIIT Delhi',
+			...surnameVariants(canonicalSurname, true),
+			...alternateSurnames.flatMap((surname) => [
+				`Sai Varun ${surname}`,
+				...surnameVariants(surname, true)
+			])
+		])
+	);
 
 	const jsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Person',
-		name: 'Sai Varun Jamalpoor',
+		name: canonicalName,
 		alternateName: nameVariants,
 		url: 'https://thesvj.github.io',
 		image: 'https://thesvj.github.io/profile_avatar.jpg',
