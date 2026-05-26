@@ -80,7 +80,6 @@
 		name="description"
 		content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models."
 	/>
-	<meta name="keywords" content={`Sai Varun Jamalpoor, ${nameVariants.join(', ')}`} />
 
 	<!-- Open Graph -->
 	<meta property="og:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
