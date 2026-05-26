@@ -39,10 +39,22 @@
 		});
 	}
 
+	const nameVariants = [
+		'Sai Jamalpoor',
+		'Saivarun Jamalpur',
+		'Saivarun',
+		'SVJ',
+		'Sai Varun IIITD',
+		'Jamalpoor Sai Varun',
+		'Jamalpur Saivarun',
+		'Sai Varun'
+	];
+
 	const jsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Person',
 		name: 'Sai Varun Jamalpoor',
+		alternateName: nameVariants,
 		url: 'https://thesvj.github.io',
 		image: 'https://thesvj.github.io/profile_avatar.jpg',
 		jobTitle: 'PhD Scholar',
@@ -68,6 +80,7 @@
 		name="description"
 		content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models."
 	/>
+	<meta name="keywords" content={`Sai Varun Jamalpoor, ${nameVariants.join(', ')}`} />
 
 	<!-- Open Graph -->
 	<meta property="og:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
