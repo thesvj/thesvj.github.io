@@ -29,11 +29,6 @@
 	<meta name="twitter:creator" content="@saij_029" />
 	<meta name="twitter:image" content="https://thesvj.github.io/profile_avatar.jpg" />
 
-	<script>
-		if (localStorage.getItem('theme') === 'dark') {
-			document.documentElement.classList.add('dark');
-		}
-	</script>
 </svelte:head>
 
 <Nav />

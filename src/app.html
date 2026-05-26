@@ -26,6 +26,11 @@
 			rel="stylesheet"
 		/>
 
+		<script>
+			if (localStorage.getItem('theme') === 'dark') {
+				document.documentElement.classList.add('dark');
+			}
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
