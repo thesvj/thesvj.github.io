@@ -14,7 +14,7 @@
 	);
 </script>
 
-<a class="post-item" href="/blog/{post.slug}">
+<a class="post-item" href="/blog/{post.slug}/">
 	<div class="post-item-meta">
 		<span class="post-item-date">{formattedDate}</span>
 		{#if post.interactive}

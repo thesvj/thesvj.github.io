@@ -17,12 +17,12 @@
 	const homeLinks: Link[] = [
 		{ label: 'About', href: '/#about' },
 		{ label: 'Research', href: '/#research' },
-		{ label: 'Blog', href: '/blog' }
+		{ label: 'Blog', href: '/blog/' }
 	];
 
 	const blogLinks: Link[] = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Posts', href: '/blog' },
+		{ label: 'Posts', href: '/blog/' },
 		{ label: 'About', href: '/#about' }
 	];
 

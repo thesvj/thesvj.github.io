@@ -7,7 +7,7 @@
 		<a href="/" class="logo">SVJ<span class="dot">.</span></a>
 
 		<nav class="links">
-			<a href="/blog">Blog</a>
+			<a href="/blog/">Blog</a>
 			<a href="/#research">Research</a>
 			<a href="https://github.com/thesvj" target="_blank" rel="noreferrer noopener" class="gh">
 				<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">

@@ -375,7 +375,7 @@
 				{/if}
 
 				<div class="all-posts-cta">
-					<a class="btn-ghost" href="/blog">Read all posts on Eigenframe →</a>
+					<a class="btn-ghost" href="/blog/">Read all posts on Eigenframe →</a>
 				</div>
 			</section>
 		</main>

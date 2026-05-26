@@ -61,7 +61,7 @@
 
 <svelte:head>
 	<title>{data.meta?.title ?? 'Post'} — Eigenframe</title>
-	<link rel="canonical" href="https://thesvj.github.io/blog/{data.slug}" />
+	<link rel="canonical" href="https://thesvj.github.io/blog/{data.slug}/" />
 	<meta name="description" content={data.meta?.description ?? ''} />
 
 	<!-- Open Graph: Article -->
@@ -85,7 +85,7 @@
 		"headline": data.meta?.title ?? '',
 		"description": data.meta?.description ?? '',
 		"datePublished": data.meta?.date ?? '',
-		"url": `https://thesvj.github.io/blog/${data.slug}`,
+		"url": `https://thesvj.github.io/blog/${data.slug}/`,
 		"author": {
 			"@type": "Person",
 			"name": "Sai Varun Jamalpoor",
@@ -164,7 +164,7 @@
 				</div>
 			{/if}
 			<div class="back-link-container">
-				<a class="back-link" href="/blog">← Back to Blog</a>
+				<a class="back-link" href="/blog/">← Back to Blog</a>
 			</div>
 		</div>
 	</div>

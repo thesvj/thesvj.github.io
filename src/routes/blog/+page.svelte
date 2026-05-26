@@ -16,7 +16,7 @@
 
 <svelte:head>
 	<title>Eigenframe — Sai Varun Jamalpoor</title>
-	<link rel="canonical" href="https://thesvj.github.io/blog" />
+	<link rel="canonical" href="https://thesvj.github.io/blog/" />
 	<meta name="description" content="Writing on AI, generative models, diffusion, and the machinery underneath — by Sai Varun Jamalpoor." />
 	<meta property="og:title" content="Eigenframe — Sai Varun Jamalpoor" />
 	<meta property="og:description" content="Writing on AI, generative models, diffusion, and the machinery underneath." />
@@ -43,11 +43,11 @@
 				<span class="sep">·</span>
 				<span class="featured-readtime">{data.featured.readTime}</span>
 			</div>
-			<a href="/blog/{data.featured.slug}" class="featured-title-link">
+			<a href="/blog/{data.featured.slug}/" class="featured-title-link">
 				<h2 class="featured-title">{data.featured.title}</h2>
 			</a>
 			<p class="featured-desc">{data.featured.description}</p>
-			<a class="featured-cta" href="/blog/{data.featured.slug}">Read Article →</a>
+			<a class="featured-cta" href="/blog/{data.featured.slug}/">Read Article →</a>
 		</div>
 	</section>
 {/if}
