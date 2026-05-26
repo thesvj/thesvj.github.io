@@ -1,24 +1,31 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	let t = $state(0.2); // Time from 0 to 1
+	let mounted = $state(false);
+
+	onMount(() => {
+		mounted = true;
+	});
 
 	// Pre-generate 150 points in a Figure-8 shape + static noise offsets
 	const N = 150;
-	const points = browser
-		? Array.from({ length: N }, (_, i) => {
-				const angle = (i / N) * Math.PI * 2;
-				const x0 = (Math.cos(angle) * 60) / (1 + Math.sin(angle) ** 2);
-				const y0 = (Math.sin(angle) * Math.cos(angle) * 60) / (1 + Math.sin(angle) ** 2);
+	const points = $derived(
+		mounted
+			? Array.from({ length: N }, (_, i) => {
+					const angle = (i / N) * Math.PI * 2;
+					const x0 = (Math.cos(angle) * 60) / (1 + Math.sin(angle) ** 2);
+					const y0 = (Math.sin(angle) * Math.cos(angle) * 60) / (1 + Math.sin(angle) ** 2);
 
-				const u1 = Math.random();
-				const u2 = Math.random();
-				const z0 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.cos(2.0 * Math.PI * u2);
-				const z1 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.sin(2.0 * Math.PI * u2);
+					const u1 = Math.random();
+					const u2 = Math.random();
+					const z0 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.cos(2.0 * Math.PI * u2);
+					const z1 = Math.sqrt(-2.0 * Math.log(u1 || 0.001)) * Math.sin(2.0 * Math.PI * u2);
 
-				return { x0, y0, noiseX: z0 * 30, noiseY: z1 * 30 };
-			})
-		: [];
+					return { x0, y0, noiseX: z0 * 30, noiseY: z1 * 30 };
+				})
+			: []
+	);
 
 	// Noise schedule calculations
 	function getLinearAlphaBar(time: number) {

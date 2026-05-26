@@ -30,7 +30,7 @@
 
 	function isActive(href: string): boolean {
 		if (href === '/') return path === '/';
-		if (href === '/blog') return path === '/blog' || path === '/blog/';
+		if (href === '/blog/') return path === '/blog/';
 		if (href.startsWith('/#')) return false;
 		return path.startsWith(href);
 	}

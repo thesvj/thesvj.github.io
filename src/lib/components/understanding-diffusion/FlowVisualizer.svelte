@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 
 	let isSDE = $state(false); // Mode: false = ODE, true = SDE
 	let progress = $state(0); // Animation progress from 0 to 1
 	let animating = $state(false);
 	let animationId: number;
+	let mounted = $state(false);
 
 	// Pre-generate starting x positions (sampled from a Gaussian distribution)
 	// Centered at 0, standard deviation ~40
@@ -47,7 +47,7 @@
 		});
 	}
 
-	let paths = $derived(browser ? generatePaths(isSDE) : []);
+	let paths = $derived(mounted ? generatePaths(isSDE) : []);
 
 	// Animation logic
 	function startAnimation() {
@@ -92,6 +92,7 @@
 	}).join(' ');
 
 	onMount(() => {
+		mounted = true;
 		return () => {
 			if (animationId) cancelAnimationFrame(animationId);
 		};
