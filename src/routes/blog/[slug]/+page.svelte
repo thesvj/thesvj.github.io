@@ -8,7 +8,7 @@
 
 	let progress = $state(0);
 	let articleEl: HTMLElement | null = $state(null);
-	let toc = $state<Array<{ id: string; text: string; active: boolean }>>([]);
+	let toc = $state<Array<{ id: string; text: string; tagName: string; active: boolean }>>([]);
 
 	function fmt(date: string): string {
 		return date
@@ -20,43 +20,73 @@
 			: '';
 	}
 
+	function updateActiveHeading() {
+		if (!articleEl) return;
+		const scrollPosition = window.scrollY + 120;
+		const headings = Array.from(articleEl.querySelectorAll<HTMLHeadingElement>('h2[id], h3[id]'));
+		if (headings.length === 0) return;
+
+		let activeId = '';
+		for (let i = 0; i < headings.length; i++) {
+			const h = headings[i];
+			const top = h.getBoundingClientRect().top + window.scrollY;
+			if (top <= scrollPosition) {
+				activeId = h.id;
+			} else {
+				break;
+			}
+		}
+
+		if (!activeId && headings.length > 0) {
+			activeId = headings[0].id;
+		}
+
+		toc = toc.map((t) => ({ ...t, active: t.id === activeId }));
+	}
+
 	function onScroll() {
 		const max = document.body.scrollHeight - window.innerHeight;
 		progress = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+		updateActiveHeading();
 	}
 
 	onMount(() => {
-		onScroll();
-		window.addEventListener('scroll', onScroll, { passive: true });
-
-		const headings = articleEl?.querySelectorAll<HTMLHeadingElement>('h2[id]') ?? [];
+		const headings = articleEl?.querySelectorAll<HTMLHeadingElement>('h2[id], h3[id]') ?? [];
 		toc = Array.from(headings).map((h) => ({
 			id: h.id,
 			text: h.textContent ?? '',
+			tagName: h.tagName.toLowerCase(),
 			active: false
 		}));
 
-		let observer: IntersectionObserver | null = null;
-		if (toc.length > 0 && 'IntersectionObserver' in window) {
-			observer = new IntersectionObserver(
-				(entries) => {
-					for (const entry of entries) {
-						if (entry.isIntersecting) {
-							const id = entry.target.id;
-							toc = toc.map((t) => ({ ...t, active: t.id === id }));
-						}
-					}
-				},
-				{ rootMargin: '-20% 0px -70% 0px', threshold: 0 }
-			);
-			headings.forEach((h) => observer!.observe(h));
-		}
+		updateActiveHeading();
+		window.addEventListener('scroll', onScroll, { passive: true });
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
-			observer?.disconnect();
 		};
 	});
+
+	const jsonLd = $derived(
+		JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BlogPosting',
+			headline: data.meta?.title ?? '',
+			description: data.meta?.description ?? '',
+			datePublished: data.meta?.date ?? '',
+			url: `https://thesvj.github.io/blog/${data.slug}/`,
+			author: {
+				'@type': 'Person',
+				name: 'Sai Varun Jamalpoor',
+				url: 'https://thesvj.github.io'
+			},
+			publisher: {
+				'@type': 'Person',
+				name: 'Sai Varun Jamalpoor'
+			}
+		})
+	);
+	const jsonLdScript = $derived(`<script type="application/ld+json">${jsonLd}</` + `script>`);
 </script>
 
 <svelte:head>
@@ -79,23 +109,7 @@
 	<meta name="twitter:description" content={data.meta?.description ?? ''} />
 
 	<!-- JSON-LD: Article -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": data.meta?.title ?? '',
-		"description": data.meta?.description ?? '',
-		"datePublished": data.meta?.date ?? '',
-		"url": `https://thesvj.github.io/blog/${data.slug}/`,
-		"author": {
-			"@type": "Person",
-			"name": "Sai Varun Jamalpoor",
-			"url": "https://thesvj.github.io"
-		},
-		"publisher": {
-			"@type": "Person",
-			"name": "Sai Varun Jamalpoor"
-		}
-	})}</script>`}
+	{@html jsonLdScript}
 </svelte:head>
 
 <div class="progress-bar" style:width={progress + '%'}></div>
@@ -138,10 +152,10 @@
 
 		{#if toc.length > 0}
 			<aside class="toc">
-				<div class="toc-label">On this page</div>
-				<ul>
+				<div class="toc-label">Outline</div>
+				<ul class="toc-list">
 					{#each toc as item (item.id)}
-						<li>
+						<li class="toc-item-{item.tagName}">
 							<a href="#{item.id}" class:active={item.active}>{item.text}</a>
 						</li>
 					{/each}
@@ -290,39 +304,48 @@
 
 	.toc-label {
 		font-family: var(--sans);
-		font-size: 10px;
-		font-weight: 600;
-		letter-spacing: 0.12em;
+		font-size: 9px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--text-muted);
-		margin-bottom: 1rem;
+		margin-bottom: 0.85rem;
+		opacity: 0.7;
 	}
 
-	.toc ul {
+	.toc-list {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.6rem;
+		gap: 0.4rem;
 		border-left: 1px solid var(--border);
 	}
 
-	.toc li {
+	.toc-item-h2,
+	.toc-item-h3 {
 		padding: 0;
+		margin: 0;
 	}
 
 	.toc a {
 		display: block;
 		font-family: var(--sans);
-		font-size: 12px;
+		font-size: 11.5px;
 		color: var(--text-muted);
-		padding: 0.2rem 0 0.2rem 1rem;
-		margin-left: -1px;
-		border-left: 1px solid transparent;
+		padding: 0.15rem 0 0.15rem 0.75rem;
+		margin-left: -1.5px;
+		border-left: 1.5px solid transparent;
 		text-decoration: none;
-		transition: all 0.15s ease;
-		line-height: 1.4;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		line-height: 1.35;
+	}
+
+	/* Indent H3 items slightly and make their text a bit smaller */
+	.toc-item-h3 a {
+		padding-left: 1.5rem;
+		font-size: 11px;
 	}
 
 	.toc a:hover {
@@ -330,9 +353,9 @@
 	}
 
 	.toc a.active {
-		color: var(--accent-teal);
+		color: var(--text-primary);
 		border-left-color: var(--accent-teal);
-		font-weight: 500;
+		font-weight: 550;
 	}
 
 	.post-footer {

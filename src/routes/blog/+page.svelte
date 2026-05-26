@@ -17,9 +17,15 @@
 <svelte:head>
 	<title>Eigenframe — Sai Varun Jamalpoor</title>
 	<link rel="canonical" href="https://thesvj.github.io/blog/" />
-	<meta name="description" content="Writing on AI, generative models, diffusion, and the machinery underneath — by Sai Varun Jamalpoor." />
+	<meta
+		name="description"
+		content="Writing on AI, generative models, diffusion, and the machinery underneath — by Sai Varun Jamalpoor."
+	/>
 	<meta property="og:title" content="Eigenframe — Sai Varun Jamalpoor" />
-	<meta property="og:description" content="Writing on AI, generative models, diffusion, and the machinery underneath." />
+	<meta
+		property="og:description"
+		content="Writing on AI, generative models, diffusion, and the machinery underneath."
+	/>
 	<meta property="og:url" content="https://thesvj.github.io/blog" />
 </svelte:head>
 

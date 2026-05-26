@@ -54,13 +54,14 @@ async function submitIndexNow() {
 					console.log(`✓ Successfully submitted to ${endpoint} (Status: ${response.status})`);
 				} else {
 					const text = await response.text();
-					console.error(`✗ Failed to submit to ${endpoint} (Status: ${response.status}). Error: ${text}`);
+					console.error(
+						`✗ Failed to submit to ${endpoint} (Status: ${response.status}). Error: ${text}`
+					);
 				}
 			} catch (err) {
 				console.error(`✗ Network error when submitting to ${endpoint}:`, err.message);
 			}
 		}
-
 	} catch (error) {
 		console.error('An error occurred during submission:', error);
 		process.exit(1);

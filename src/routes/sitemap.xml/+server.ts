@@ -15,14 +15,9 @@ function url(loc: string, priority: string, changefreq: string, lastmod?: string
 export const GET: RequestHandler = async () => {
 	const posts = await getAllPosts();
 
-	const staticPages = [
-		url(`${BASE}/`, '1.0', 'monthly'),
-		url(`${BASE}/blog/`, '0.8', 'weekly')
-	];
+	const staticPages = [url(`${BASE}/`, '1.0', 'monthly'), url(`${BASE}/blog/`, '0.8', 'weekly')];
 
-	const postPages = posts.map((p) =>
-		url(`${BASE}/blog/${p.slug}/`, '0.7', 'monthly', p.date)
-	);
+	const postPages = posts.map((p) => url(`${BASE}/blog/${p.slug}/`, '0.7', 'monthly', p.date));
 
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

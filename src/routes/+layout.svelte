@@ -10,7 +10,10 @@
 	<meta name="color-scheme" content="light" />
 
 	<!-- Default SEO — pages override these in their own <svelte:head> -->
-	<meta name="description" content="Sai Varun Jamalpoor — PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling." />
+	<meta
+		name="description"
+		content="Sai Varun Jamalpoor — PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
+	/>
 	<meta name="author" content="Sai Varun Jamalpoor" />
 	<meta name="robots" content="index, follow" />
 

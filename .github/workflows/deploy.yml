@@ -56,4 +56,3 @@ jobs:
           node-version: '20'
       - name: Submit to IndexNow
         run: node scripts/submit-indexnow.js
-
