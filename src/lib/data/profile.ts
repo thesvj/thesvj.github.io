@@ -22,7 +22,7 @@ export const publications = [
 		year: '2026',
 		tldr: 'We introduce a psychophysics-inspired framework to probe the temporal resolution limits of Video-LLMs, identifying a representation-behavior gap in temporal sensitivity.',
 		links: {
-			paper: undefined,
+			paper: 'https://openreview.net/pdf?id=yhHCPwII37',
 			code: undefined,
 			project: undefined
 		},
