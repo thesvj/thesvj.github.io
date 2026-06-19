@@ -17,16 +17,16 @@
 	const homeLinks: Link[] = [
 		{ label: 'About', href: '/#about' },
 		{ label: 'Research', href: '/#research' },
-		{ label: 'Blog', href: '/blog/' }
+		{ label: 'Posts', href: '/blog/' }
 	];
 
-	const blogLinks: Link[] = [
+	const postsLinks: Link[] = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Posts', href: '/blog/' },
 		{ label: 'About', href: '/#about' }
 	];
 
-	const links = $derived(isHome ? homeLinks : blogLinks);
+	const links = $derived(isHome ? homeLinks : postsLinks);
 
 	function isActive(href: string): boolean {
 		if (href === '/') return path === '/';
@@ -63,13 +63,6 @@
 		</nav>
 
 		<div class="right">
-			{#if !isHome}
-				<a
-					class="btn subscribe desktop"
-					href="mailto:saij@iiitd.ac.in?subject=Subscribe%20to%20Eigenframe">Subscribe</a
-				>
-			{/if}
-
 			<button class="theme-toggle" aria-label="Toggle dark mode" onclick={toggleTheme}>
 				{#if theme === 'light'}
 					<svg
@@ -126,13 +119,6 @@
 			{#each links as link (link.href)}
 				<a href={link.href} class="mobile-link" onclick={close}>{link.label}</a>
 			{/each}
-			{#if !isHome}
-				<a
-					class="mobile-link"
-					href="mailto:saij@iiitd.ac.in?subject=Subscribe%20to%20Eigenframe"
-					onclick={close}>Subscribe</a
-				>
-			{/if}
 		</div>
 	{/if}
 </header>
@@ -222,11 +208,6 @@
 		gap: 1rem;
 	}
 
-	.subscribe {
-		font-size: 11px;
-		padding: 0.45rem 1.1rem;
-	}
-
 	.theme-toggle {
 		display: flex;
 		align-items: center;
@@ -310,8 +291,7 @@
 	}
 
 	@media (max-width: 768px) {
-		.links.desktop,
-		.subscribe.desktop {
+		.links.desktop {
 			display: none;
 		}
 

@@ -1,9 +1,6 @@
 <script lang="ts">
-	import PostCard from '$lib/components/PostCard.svelte';
 	import TimelineItem from '$lib/components/TimelineItem.svelte';
 	import { news, publications, education, service, advisors } from '$lib/data/profile';
-
-	let { data } = $props();
 
 	const email = 'saij@iiitd.ac.in';
 	let activeBibtexIndex = $state<number | null>(null);
@@ -406,23 +403,6 @@
 				</div>
 			</section>
 
-			<!-- Blog writing preview -->
-			<section id="blog-preview" style="scroll-margin-top: 80px;">
-				<h2 class="academic-heading">Writing</h2>
-				<p class="section-sub">Writing on AI, generative models, and the machinery underneath.</p>
-
-				{#if data.recentPosts.length > 0}
-					<div class="post-grid">
-						{#each data.recentPosts as post (post.slug)}
-							<PostCard {post} />
-						{/each}
-					</div>
-				{/if}
-
-				<div class="all-posts-cta">
-					<a class="btn-ghost" href="/blog/">Read all posts on Eigenframe →</a>
-				</div>
-			</section>
 		</main>
 	</div>
 </div>
@@ -451,15 +431,6 @@
 		border-bottom: 1px solid var(--border);
 		padding-bottom: 0.5rem;
 		letter-spacing: -0.01em;
-	}
-
-	.section-sub {
-		font-family: var(--sans);
-		font-size: 0.95rem;
-		font-weight: 400;
-		color: var(--text-muted);
-		margin: 0 0 2rem;
-		max-width: 600px;
 	}
 
 	.bio {
@@ -505,18 +476,6 @@
 		font-family: var(--sans);
 		font-size: 0.92rem;
 		color: var(--text-secondary);
-	}
-
-	/* ---------- Blog preview ---------- */
-	.post-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-		gap: 1.25rem;
-	}
-
-	.all-posts-cta {
-		text-align: center;
-		margin-top: 2rem;
 	}
 
 	/* ---------- BibTeX Drawer ---------- */

@@ -90,12 +90,12 @@
 </script>
 
 <svelte:head>
-	<title>{data.meta?.title ?? 'Post'} — Eigenframe</title>
+	<title>{data.meta?.title ?? 'Post'} — Sai Varun Jamalpoor</title>
 	<link rel="canonical" href="https://thesvj.github.io/blog/{data.slug}/" />
 	<meta name="description" content={data.meta?.description ?? ''} />
 
 	<!-- Open Graph: Article -->
-	<meta property="og:title" content="{data.meta?.title ?? 'Post'} — Eigenframe" />
+	<meta property="og:title" content="{data.meta?.title ?? 'Post'} — Sai Varun Jamalpoor" />
 	<meta property="og:description" content={data.meta?.description ?? ''} />
 	<meta property="og:url" content="https://thesvj.github.io/blog/{data.slug}" />
 	<meta property="og:type" content="article" />
@@ -105,7 +105,7 @@
 	<meta property="article:author" content="Sai Varun Jamalpoor" />
 
 	<!-- Twitter -->
-	<meta name="twitter:title" content="{data.meta?.title ?? 'Post'} — Eigenframe" />
+	<meta name="twitter:title" content="{data.meta?.title ?? 'Post'} — Sai Varun Jamalpoor" />
 	<meta name="twitter:description" content={data.meta?.description ?? ''} />
 
 	<!-- JSON-LD: Article -->
@@ -178,7 +178,7 @@
 				</div>
 			{/if}
 			<div class="back-link-container">
-				<a class="back-link" href="/blog/">← Back to Blog</a>
+				<a class="back-link" href="/blog/">← Back to Posts</a>
 			</div>
 		</div>
 	</div>

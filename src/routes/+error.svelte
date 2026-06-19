@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.status} — Eigenframe</title>
+	<title>{$page.status} — Sai Varun Jamalpoor</title>
 </svelte:head>
 
 <section class="err">
@@ -11,13 +11,12 @@
 		<div class="big">{$page.status}</div>
 		<p class="msg">
 			{#if $page.status === 404}
-				This post doesn't exist yet.
+				This page doesn't exist.
 			{:else}
 				{$page.error?.message ?? 'Something went wrong.'}
 			{/if}
 		</p>
 		<div class="links">
-			<a class="btn-ghost" href="/blog">← Back to Eigenframe</a>
 			<a class="btn-ghost" href="/">← Back to home</a>
 		</div>
 	</div>

@@ -12,11 +12,9 @@ export async function getAllPosts(): Promise<Post[]> {
 			title: (meta.title as string) ?? 'Untitled',
 			description: (meta.description as string) ?? '',
 			date: (meta.date as string) ?? '',
-			tag: (meta.tag as string) ?? 'Research',
 			interactive: (meta.interactive as boolean) ?? false,
 			readTime: (meta.readTime as string) ?? '10 min',
-			published: (meta.published as boolean) ?? true,
-			featured: (meta.featured as boolean) ?? false
+			published: (meta.published as boolean) ?? true
 		};
 	});
 

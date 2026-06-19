@@ -2,11 +2,9 @@
 title: "Understanding Diffusion Models"
 description: "Building up diffusion models from scratch — the math, the intuition, and interactive visualizations."
 date: "2026-05-06"
-tag: "Deep Learning"
 interactive: true
 readTime: "25 min"
 published: true
-featured: true
 ---
 
 <script>
