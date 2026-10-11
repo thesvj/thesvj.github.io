@@ -5,8 +5,20 @@ export const advisors = [
 
 export const news = [
 	{
+		date: 'Oct 2026',
+		text: "Submitted 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs', a reworked version of my first paper, for review."
+	},
+	{
+		date: 'Sep 2026',
+		text: 'PANINI, our English–Manipuri translation system, accepted at WMT 2026 (Conference on Machine Translation).'
+	},
+	{
+		date: 'Aug 2026',
+		text: "My first paper, 'Temporal Fidelity', was rejected at EMNLP 2026. Reviewers asked for sharper positioning; the revision is now under review."
+	},
+	{
 		date: 'May 2026',
-		text: "Submitted our paper 'Temporal Fidelity: Probing the Temporal Resolution of Video-Language Models' for review."
+		text: "Submitted 'Temporal Fidelity: Probing the Temporal Resolution of Video-Language Models' to ARR."
 	},
 	{
 		date: 'Jul 2025',
@@ -14,19 +26,38 @@ export const news = [
 	}
 ];
 
-export const publications = [
+export type Publication = {
+	title: string;
+	authors: string;
+	venue: string;
+	year: string;
+	status: 'published' | 'under-review';
+	tldr: string;
+	contribution?: string;
+	links: { paper?: string; code?: string; project?: string };
+};
+
+export const publications: Publication[] = [
 	{
-		title: 'Temporal Fidelity: Probing the Temporal Resolution of Video-Language Models',
-		authors: 'Sai Varun Jamalpoor, Mukesh Mohania, Vikram Goyal',
-		venue: 'Preprint, Under Review',
+		title:
+			'PANINI: Improving Low-Resource English↔Manipuri Translation in Two Scripts via rsLoRA and Three-Stream Self-Augmentation',
+		authors: 'Rudali Huidrom, Vikas Kumar, …, Sai Varun Jamalpoor, …, Vikram Goyal',
+		venue: 'WMT 2026 (Eleventh Conference on Machine Translation)',
 		year: '2026',
-		tldr: 'We introduce a psychophysics-inspired framework to probe the temporal resolution limits of Video-LLMs, identifying a representation-behavior gap in temporal sensitivity.',
-		links: {
-			paper: 'https://openreview.net/pdf?id=yhHCPwII37',
-			code: undefined,
-			project: undefined
-		},
-		bibtex: undefined
+		status: 'published',
+		tldr: 'Per-direction rsLoRA adapters over IndicTrans2-1B with self-generated synthetic data. Best system on English→Manipuri (Meitei Mayek), COMET 92.31.',
+		contribution:
+			'Built the meta-learning pipeline (Reptile, Meta-Weight Net) for the per-direction LoRA adapters.',
+		links: { paper: 'https://www2.statmt.org/wmt26/pdf/2026.wmt-1.154.pdf' }
+	},
+	{
+		title: 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs',
+		authors: 'Sai Varun Jamalpoor, Mukesh Mohania, Vikram Goyal',
+		venue: 'Under review',
+		year: '2026',
+		status: 'under-review',
+		tldr: 'A trial-level diagnostic (delivered-frame logs, signal detection theory, first-token YES−NO margin) showing where temporal-order evidence is lost in Video LLMs that score near chance.',
+		links: {}
 	}
 ];
 
@@ -58,11 +89,15 @@ export const education = [
 
 export const service = [
 	{
+		role: 'Student Volunteer',
+		details: 'ACM SIGMOD 2026, Bangalore'
+	},
+	{
 		role: 'Teaching Assistant',
 		details: 'Database Management Systems (CSE202), IIIT-Delhi, Winter 2026'
 	},
 	{
-		role: 'Teaching Assistant',
+		role: 'Head Teaching Assistant',
 		details: 'Information Integration and Applications (CSE656), IIIT-Delhi, Monsoon 2025'
 	},
 	{

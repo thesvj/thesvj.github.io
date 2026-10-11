@@ -1,12 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let mobileOpen = $state(false);
 	let theme = $state('light');
-
-	const path = $derived($page.url.pathname);
-	const isHome = $derived(path === '/');
 
 	function close() {
 		mobileOpen = false;
@@ -14,26 +10,11 @@
 
 	type Link = { label: string; href: string };
 
-	const homeLinks: Link[] = [
+	const links: Link[] = [
 		{ label: 'About', href: '/#about' },
-		{ label: 'Research', href: '/#research' },
-		{ label: 'Posts', href: '/blog/' }
+		{ label: 'Publications', href: '/#research' },
+		{ label: 'News', href: '/#updates' }
 	];
-
-	const postsLinks: Link[] = [
-		{ label: 'Home', href: '/' },
-		{ label: 'Posts', href: '/blog/' },
-		{ label: 'About', href: '/#about' }
-	];
-
-	const links = $derived(isHome ? homeLinks : postsLinks);
-
-	function isActive(href: string): boolean {
-		if (href === '/') return path === '/';
-		if (href === '/blog/') return path === '/blog/';
-		if (href.startsWith('/#')) return false;
-		return path.startsWith(href);
-	}
 
 	onMount(() => {
 		theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
@@ -58,7 +39,7 @@
 
 		<nav class="links desktop">
 			{#each links as link (link.href)}
-				<a href={link.href} class="link" class:active={isActive(link.href)}>{link.label}</a>
+				<a href={link.href} class="link">{link.label}</a>
 			{/each}
 		</nav>
 
@@ -192,13 +173,13 @@
 	}
 
 	.link:hover::after,
-	.link.active::after {
+	.link:focus-visible::after {
 		transform: scaleX(1);
 		transform-origin: left;
 	}
 
 	.link:hover,
-	.link.active {
+	.link:focus-visible {
 		color: var(--accent-teal);
 	}
 

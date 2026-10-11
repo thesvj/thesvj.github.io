@@ -28,7 +28,6 @@
 	<meta name="twitter:site" content="@saij_029" />
 	<meta name="twitter:creator" content="@saij_029" />
 	<meta name="twitter:image" content="https://thesvj.github.io/profile_avatar.jpg" />
-
 </svelte:head>
 
 <Nav />

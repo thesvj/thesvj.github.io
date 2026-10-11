@@ -1,18 +1,14 @@
 <script lang="ts">
-	import TimelineItem from '$lib/components/TimelineItem.svelte';
-	import { news, publications, education, service, advisors } from '$lib/data/profile';
+	import { advisors, education, news, publications, service } from '$lib/data/profile';
 
 	const email = 'saij@iiitd.ac.in';
-	let activeBibtexIndex = $state<number | null>(null);
-	let showCopyToast = $state(false);
 
-	function toggleBibtex(index: number) {
-		if (activeBibtexIndex === index) {
-			activeBibtexIndex = null;
-		} else {
-			activeBibtexIndex = index;
-		}
-	}
+	const advisorLinks = advisors
+		.map(
+			(advisor) =>
+				`<a href="${advisor.url}" target="_blank" rel="noreferrer noopener">${advisor.name}</a>`
+		)
+		.join(', ');
 
 	function formatAuthors(authorsStr: string) {
 		return authorsStr
@@ -27,46 +23,26 @@
 			.join(', ');
 	}
 
-	function copyToClipboard(text: string) {
-		navigator.clipboard.writeText(text).then(() => {
-			showCopyToast = true;
-			setTimeout(() => {
-				showCopyToast = false;
-			}, 2500);
-		});
-	}
-
 	const canonicalName = 'Sai Varun Jamalpoor';
-	const canonicalSurname = 'Jamalpoor';
-	const alternateSurnames = ['Jamalpur'];
-	const surnameVariants = (surname: string, includeInstitutionVariant = false) => [
-		`Saivarun ${surname}`,
-		`Sai ${surname}`,
-		`Varun ${surname}`,
-		`Sai V ${surname}`,
-		`S V ${surname}`,
-		...(includeInstitutionVariant ? [`Sai Varun ${surname} IIITD`] : []),
-		`${surname} Sai Varun`,
-		`${surname} Saivarun`
-	];
-
+	const surnames = ['Jamalpoor', 'Jamalpur'];
 	const nameVariants = Array.from(
 		new Set([
 			'Sai Varun',
 			'Saivarun',
 			'Sai Varun J',
-			'Sai V',
 			'SVJ',
-			'S V J',
 			'Sai Varun IIITD',
 			'Sai Varun IIIT Delhi',
-			...surnameVariants(canonicalSurname, true),
-			...alternateSurnames.flatMap((surname) => [
+			...surnames.flatMap((surname) => [
 				`Sai Varun ${surname}`,
-				...surnameVariants(surname, true)
+				`Saivarun ${surname}`,
+				`Sai ${surname}`,
+				`S V ${surname}`,
+				`${surname} Sai Varun`,
+				`Sai Varun ${surname} IIITD`
 			])
 		])
-	);
+	).filter((name) => name !== canonicalName);
 
 	const jsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
@@ -92,460 +68,458 @@
 </script>
 
 <svelte:head>
-	<title>Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi</title>
+	<title>Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi</title>
 	<link rel="canonical" href="https://thesvj.github.io/" />
 	<meta
 		name="description"
-		content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models."
+		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling in video-language systems."
 	/>
-
-	<!-- Open Graph -->
-	<meta property="og:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
+	<meta property="og:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		property="og:description"
-		content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling in video-language models."
+		content="PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
 	/>
 	<meta property="og:url" content="https://thesvj.github.io/" />
 	<meta property="og:type" content="profile" />
-
-	<!-- Twitter -->
-	<meta name="twitter:title" content="Sai Varun Jamalpoor — PhD Scholar, IIIT-Delhi" />
+	<meta name="twitter:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		name="twitter:description"
-		content="PhD Scholar in CS at IIIT-Delhi. Research on video generation, multimodal AI, and temporal modeling."
+		content="PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
 	/>
-
-	<!-- JSON-LD: Person -->
 	{@html jsonLdScript}
 </svelte:head>
 
-<div class="container main-layout-wrap">
-	<div class="academic-grid animate-fade-in">
-		<!-- ==========================================
-		     LEFT SIDEBAR: Profile Card, Socials, News
-		     ========================================== -->
-		<aside class="academic-sidebar">
-			<!-- Profile Card -->
-			<div class="sidebar-profile-card">
-				<div class="sidebar-avatar">
-					<img src="/profile_avatar.jpg" alt="Sai Varun Jamalpoor" />
-				</div>
-				<div class="sidebar-info">
-					<h1 class="sidebar-name">Sai Varun Jamalpoor</h1>
-					<p class="sidebar-title">PhD Scholar in Computer Science</p>
-					<p class="sidebar-affiliation">
-						Applied Data Science Lab<br />
-						IIIT-Delhi, India
-					</p>
-					<p class="sidebar-advisors">
-						Advised by
-						{#each advisors as adv, index}<a
-								href={adv.url}
-								target="_blank"
-								rel="noreferrer noopener">{adv.name}</a
-							>{#if index < advisors.length - 1}
-								&amp;
-							{/if}{/each}
-					</p>
-				</div>
-			</div>
-
-			<!-- Contact & Socials -->
-			<div class="sidebar-socials">
-				<!-- Google Scholar (Commented out temporarily)
-				<a
-					href="https://scholar.google.com"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="sidebar-social-link"
-				>
-					<svg
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-						<path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
-					</svg>
-					Google Scholar
-				</a>
-				-->
-
-				<!-- GitHub -->
-				<a
-					href="https://github.com/thesvj"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="sidebar-social-link"
-				>
-					<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-						<path
-							d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.06-.49.06-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-						/>
-					</svg>
-					GitHub
-				</a>
-
-				<!-- Twitter / X -->
-				<a
-					href="https://x.com/saij_029"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="sidebar-social-link"
-				>
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-						<path
-							d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-						/>
-					</svg>
-					Twitter / X
-				</a>
-
-				<!-- LinkedIn -->
-				<a
-					href="https://www.linkedin.com/in/sai-varun-jamalpoor-1020b1285/"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="sidebar-social-link"
-				>
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-						<path
-							d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-						/>
-					</svg>
-					LinkedIn
-				</a>
-
-				<!-- CV PDF Link (Commented out temporarily)
-				<a href={cvUrl} class="sidebar-social-link">
-					<svg
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-						<polyline points="14 2 14 8 20 8" />
-						<line x1="16" y1="13" x2="8" y2="13" />
-						<line x1="16" y1="17" x2="8" y2="17" />
-						<polyline points="10 9 9 9 8 9" />
-					</svg>
-					Curriculum Vitae
-				</a>
-				-->
-
-				<!-- Email directly -->
-				<a href="mailto:{email}" class="sidebar-social-link">
-					<svg
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-						<polyline points="22,6 12,13 2,6" />
-					</svg>
-					{email}
-				</a>
-			</div>
-
-			<!-- News / Updates feed -->
-			<div class="sidebar-news-section">
-				<h3 class="sidebar-news-title">Latest Updates</h3>
-				<ul class="sidebar-news-list">
-					{#each news as item}
-						<li class="sidebar-news-item">
-							<span class="sidebar-news-date">{item.date}</span>
-							<span class="sidebar-news-text">{item.text}</span>
-						</li>
-					{/each}
-				</ul>
-			</div>
-		</aside>
-
-		<!-- ==========================================
-		     RIGHT COLUMN: Bio, Publications, Journey, etc.
-		     ========================================== -->
-		<main class="academic-content">
-			<!-- Narrative Bio -->
-			<section id="about" style="scroll-margin-top: 80px;">
-				<h2 class="academic-heading">About</h2>
-				<p class="bio">
-					I am a PhD student in Computer Science at IIIT-Delhi. My research focuses on video
-					generation and understanding, with a particular interest in model efficiency and temporal
-					modeling. Currently, I am studying how video-language models represent and reason about
-					temporal dynamics.
+<div class="home-shell">
+	<section class="intro container">
+		<div class="profile-rail">
+			<img class="portrait" src="/profile_avatar.jpg" alt="Sai Varun Jamalpoor portrait" />
+			<div class="contact-block">
+				<p class="section-kicker">Contact</p>
+				<p class="contact-line"><a href="mailto:{email}">{email}</a></p>
+				<p class="contact-line">
+					<a href="https://github.com/thesvj" target="_blank" rel="noreferrer noopener">GitHub</a>
 				</p>
-			</section>
+				<p class="contact-line">
+					<a href="https://x.com/saij_029" target="_blank" rel="noreferrer noopener">X</a>
+				</p>
+				<p class="contact-line">
+					<a
+						href="https://www.linkedin.com/in/sai-varun-jamalpoor-1020b1285/"
+						target="_blank"
+						rel="noreferrer noopener"
+					>
+						LinkedIn
+					</a>
+				</p>
+			</div>
+		</div>
 
-			<!-- Publications Section -->
-			<section id="research" style="scroll-margin-top: 80px;">
-				<h2 class="academic-heading" style="margin-bottom: 2rem;">Papers</h2>
+		<div class="identity">
+			<p class="eyebrow">PhD Scholar, Computer Science, IIIT-Delhi</p>
+			<h1>Sai Varun Jamalpoor</h1>
+			<p class="summary">
+				I study how multimodal models represent and generate time: diagnosing temporal failures in
+				Video LLMs and building efficient audio–video diffusion transformers.
+			</p>
 
-				<div class="academic-publications-list">
-					{#each publications as pub, i}
-						<article class="academic-pub-item">
-							<!-- Details -->
-							<div class="pub-details">
-								<h3 class="pub-title">{pub.title}</h3>
-								<div class="pub-authors">
-									{@html formatAuthors(pub.authors)}
-								</div>
-								<div class="pub-venue">
-									{pub.venue}
-								</div>
-								{#if pub.tldr}
-									<p class="pub-tldr"><strong>TL;DR:</strong> {pub.tldr}</p>
-								{/if}
-
-								<div class="pub-links">
-									{#if pub.links.paper}
-										<a
-											class="pub-link"
-											href={pub.links.paper}
-											target="_blank"
-											rel="noreferrer noopener">[Paper]</a
-										>
-									{/if}
-									{#if pub.links.code}
-										<a
-											class="pub-link"
-											href={pub.links.code}
-											target="_blank"
-											rel="noreferrer noopener">[Code]</a
-										>
-									{/if}
-									{#if pub.links.project}
-										<a class="pub-link" href={pub.links.project}>[Project Page]</a>
-									{/if}
-									{#if pub.bibtex}
-										<button class="pub-link-btn" onclick={() => toggleBibtex(i)}>
-											{activeBibtexIndex === i ? '[Hide Citation]' : '[BibTeX]'}
-										</button>
-									{/if}
-								</div>
-
-								{#if activeBibtexIndex === i}
-									<div class="bibtex-container">
-										<div class="bibtex-header-row">
-											<span
-												style="font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--text-muted);"
-												>BibTeX Citation</span
-											>
-											<button
-												class="copy-citation-btn"
-												onclick={() => copyToClipboard(pub.bibtex ?? '')}
-											>
-												<svg
-													width="10"
-													height="10"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="3"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-													<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-												</svg>
-												Copy
-											</button>
-										</div>
-										<pre><code>{pub.bibtex}</code></pre>
-									</div>
-								{/if}
-							</div>
-						</article>
-					{/each}
+			<dl class="fact-list">
+				<div>
+					<dt>Affiliation</dt>
+					<dd>Applied Data Science Lab, IIIT-Delhi</dd>
 				</div>
-			</section>
+				<div>
+					<dt>Advisors</dt>
+					<dd>{@html advisorLinks}</dd>
+				</div>
+				<div>
+					<dt>Research</dt>
+					<dd>Temporal reasoning in Video LLMs, audio–video diffusion, low-resource MT</dd>
+				</div>
+			</dl>
+		</div>
+	</section>
 
-			<!-- Education Timeline -->
-			<section id="education" style="scroll-margin-top: 80px;">
-				<h2 class="academic-heading" style="margin-bottom: 2rem;">Education</h2>
-				<ul class="timeline">
-					{#each education as edu}
-						<TimelineItem
-							institution={edu.institution}
-							degree={edu.degree}
-							period={edu.period}
-							description={edu.description}
-							current={edu.current}
-						/>
-					{/each}
-				</ul>
-			</section>
+	<section class="container section-block" id="about" style="scroll-margin-top: 88px;">
+		<div class="section-head">
+			<h2>About</h2>
+		</div>
+		<p>
+			I am a PhD student in Computer Science at IIIT-Delhi. One line of my work asks where temporal
+			evidence is lost inside Video LLMs: the frames carry the order, the hidden states often encode
+			it, and the answer still comes out near chance.
+		</p>
+		<p>
+			The other line builds native audio–video diffusion transformers that keep audio and video on
+			independent timebases, trained efficiently from a single GPU up to an 8×H200 node. I have also
+			worked on low-resource machine translation for Manipuri.
+		</p>
+	</section>
 
-			<!-- Service / Teaching -->
-			<section id="service" style="scroll-margin-top: 80px;">
-				<h2 class="academic-heading" style="margin-bottom: 2rem;">Teaching &amp; Mentorship</h2>
-				<div class="service-list">
-					{#each service as item}
-						<div class="service-item">
-							<div class="service-role">{item.role}</div>
-							<div class="service-details">{item.details}</div>
+	<section class="container section-block" id="research" style="scroll-margin-top: 88px;">
+		<div class="section-head">
+			<h2>Publications</h2>
+		</div>
+
+		<div class="publication-list">
+			{#each publications as pub (pub.title)}
+				<article class="publication">
+					<div class="publication-meta">
+						<span>{pub.venue}</span>
+						<span class="status" class:review={pub.status === 'under-review'}>
+							{pub.status === 'published' ? 'Published' : 'Under review'} · {pub.year}
+						</span>
+					</div>
+					<h3>{pub.title}</h3>
+					<p class="authors">{@html formatAuthors(pub.authors)}</p>
+					<p class="summary-text">{pub.tldr}</p>
+					{#if pub.contribution}
+						<p class="summary-text"><em>My part:</em> {pub.contribution}</p>
+					{/if}
+					{#if pub.links.paper || pub.links.code || pub.links.project}
+						<div class="inline-links">
+							{#if pub.links.paper}
+								<a href={pub.links.paper} target="_blank" rel="noreferrer noopener">Paper</a>
+							{/if}
+							{#if pub.links.code}
+								<a href={pub.links.code} target="_blank" rel="noreferrer noopener">Code</a>
+							{/if}
+							{#if pub.links.project}
+								<a href={pub.links.project}>Project</a>
+							{/if}
 						</div>
-					{/each}
-				</div>
-			</section>
+					{/if}
+				</article>
+			{/each}
+		</div>
+	</section>
 
-		</main>
-	</div>
+	<section class="container section-block">
+		<div class="section-head">
+			<h2>Current Focus</h2>
+		</div>
+		<ul class="simple-list">
+			<li>Locating where temporal evidence is lost in Video LLMs.</li>
+			<li>Native audio–video diffusion transformers with independent timebases.</li>
+			<li>Efficient multi-GPU training with custom Triton/CUDA kernels.</li>
+		</ul>
+	</section>
+
+	<section class="container section-block" id="updates" style="scroll-margin-top: 88px;">
+		<div class="section-head">
+			<h2>Recent Updates</h2>
+		</div>
+		<ul class="update-list">
+			{#each news as item}
+				<li>
+					<span class="update-date">{item.date}</span>
+					<span class="update-text">{item.text}</span>
+				</li>
+			{/each}
+		</ul>
+	</section>
+
+	<section class="container section-block">
+		<div class="section-head">
+			<h2>Teaching and Service</h2>
+		</div>
+		<ul class="simple-list">
+			{#each service as item}
+				<li>
+					<strong>{item.role}:</strong>
+					{item.details}
+				</li>
+			{/each}
+		</ul>
+	</section>
+
+	<section class="container section-block" id="education" style="scroll-margin-top: 88px;">
+		<div class="section-head">
+			<h2>Education</h2>
+		</div>
+		<div class="education-list">
+			{#each education as item}
+				<article class="education-item">
+					<div class="education-head">
+						<div>
+							<h3>{item.institution}</h3>
+							<p>{item.degree}</p>
+						</div>
+						<span>{item.period}</span>
+					</div>
+					<p>{item.description}</p>
+				</article>
+			{/each}
+		</div>
+	</section>
 </div>
 
-<!-- Copy Citation Toast Alert -->
-{#if showCopyToast}
-	<div class="copy-alert-toast">Citation copied to clipboard</div>
-{/if}
-
 <style>
-	/* ---------- Layout wrapper ---------- */
-	.main-layout-wrap {
-		position: relative;
-		z-index: 1;
-		padding-bottom: 5rem;
+	.home-shell {
+		padding: 1.5rem 0 4.5rem;
+	}
+
+	.intro {
+		display: grid;
+		grid-template-columns: 220px minmax(0, 1fr);
+		gap: 2rem;
+		align-items: start;
 		padding-top: 1rem;
 	}
 
-	/* ---------- Academic Heading ---------- */
-	.academic-heading {
+	.profile-rail {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.portrait {
+		width: 100%;
+		aspect-ratio: 1;
+		object-fit: cover;
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		filter: grayscale(0.08) contrast(1.02);
+	}
+
+	.contact-block {
+		padding-top: 0.25rem;
+		border-top: 1px solid var(--border);
+	}
+
+	.section-kicker,
+	.eyebrow,
+	.publication-meta,
+	.update-date,
+	.education-item span,
+	dt {
+		font-family: var(--mono);
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+
+	.eyebrow {
+		margin: 0 0 0.75rem;
+	}
+
+	h1 {
 		font-family: var(--serif);
-		font-size: 1.4rem;
-		font-weight: 700;
-		color: var(--accent-teal);
-		margin-bottom: 1.5rem;
-		border-bottom: 1px solid var(--border);
-		padding-bottom: 0.5rem;
-		letter-spacing: -0.01em;
+		font-size: clamp(2.6rem, 4.2vw, 4.2rem);
+		line-height: 0.96;
+		letter-spacing: -0.04em;
+		margin: 0;
+		max-width: 9ch;
 	}
 
-	.bio {
-		font-family: var(--sans);
-		font-size: 1rem;
-		font-weight: 400;
+	.summary {
+		margin: 1rem 0 0;
+		max-width: 68ch;
+		font-size: 1.08rem;
+		line-height: 1.8;
 		color: var(--text-secondary);
-		line-height: 1.75;
+	}
+
+	.fact-list {
+		display: grid;
+		gap: 0.8rem;
+		margin: 1.5rem 0 0;
+	}
+
+	.fact-list div {
+		display: grid;
+		grid-template-columns: 100px minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding-top: 0.8rem;
+		border-top: 1px solid var(--border);
+	}
+
+	dt,
+	.section-head h2,
+	.education-item h3,
+	.publication h3 {
 		margin: 0;
 	}
 
-	/* ---------- Education ---------- */
-	.timeline {
-		position: relative;
+	dd {
 		margin: 0;
-		padding: 0 0 0 0.5rem;
-		border-left: 1px solid var(--border);
-		max-width: 720px;
-	}
-
-	/* ---------- Service ---------- */
-	.service-list {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-		max-width: 720px;
-	}
-
-	.service-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-	}
-
-	.service-role {
-		font-family: var(--sans);
-		font-weight: 600;
-		font-size: 1rem;
+		line-height: 1.7;
 		color: var(--text-primary);
 	}
 
-	.service-details {
-		font-family: var(--sans);
-		font-size: 0.92rem;
+	.section-block p,
+	.simple-list,
+	.update-text,
+	.education-item p,
+	.authors,
+	.summary-text {
 		color: var(--text-secondary);
+		line-height: 1.75;
 	}
 
-	/* ---------- BibTeX Drawer ---------- */
-	.bibtex-container {
-		margin-top: 0.6rem;
-		animation: slideDown 0.25s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-		overflow: hidden;
+	.section-block {
+		padding-top: 2.25rem;
+		margin-top: 2rem;
+		border-top: 1px solid var(--border);
 	}
 
-	@keyframes slideDown {
-		from {
-			opacity: 0;
-			transform: translateY(-2px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	.section-head {
+		margin-bottom: 0.85rem;
 	}
 
-	.bibtex-container pre {
-		background: var(--bg-secondary);
-		border: 1px solid var(--border);
-		border-radius: var(--radius-sm);
-		padding: 0.75rem 1rem;
-		overflow-x: auto;
+	.section-head h2 {
+		font-family: var(--serif);
+		font-size: 1.55rem;
+		line-height: 1.2;
+		letter-spacing: -0.02em;
+		color: var(--text-primary);
+	}
+
+	.publication-list {
+		display: grid;
+		gap: 2.25rem;
+	}
+
+	.publication {
+		max-width: 74ch;
+	}
+
+	.status {
+		color: var(--accent-teal);
+		white-space: nowrap;
+	}
+
+	.status.review {
+		color: var(--accent-amber);
+	}
+
+	.publication-meta {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-bottom: 0.4rem;
+		border-bottom: 1px solid var(--border);
+		margin-bottom: 0.9rem;
+	}
+
+	.publication h3 {
+		font-family: var(--serif);
+		font-size: 1.5rem;
+		line-height: 1.25;
+		letter-spacing: -0.02em;
+		color: var(--text-primary);
+	}
+
+	.authors {
+		margin: 0.5rem 0 0;
+		font-size: 0.98rem;
+	}
+
+	.summary-text {
+		margin: 0.75rem 0 0;
+		max-width: 70ch;
+	}
+
+	.inline-links {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 1rem;
+	}
+
+	.inline-links a,
+	.contact-line a {
+		color: var(--text-primary);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+	}
+
+	.inline-links a:hover,
+	.contact-line a:hover {
+		border-bottom-color: var(--accent-teal);
+		color: var(--accent-teal);
+	}
+
+	.simple-list,
+	.update-list {
 		margin: 0;
+		padding-left: 1.1rem;
 	}
 
-	.bibtex-container code {
-		font-family: var(--mono);
-		font-size: 12px;
+	.simple-list li + li,
+	.update-list li + li {
+		margin-top: 0.5rem;
+	}
+
+	.update-list {
+		list-style: none;
+		padding-left: 0;
+		display: grid;
+		gap: 0.9rem;
+		max-width: 76ch;
+	}
+
+	.update-list li {
+		display: grid;
+		grid-template-columns: 90px minmax(0, 1fr);
+		gap: 1rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid var(--border);
+	}
+
+	.education-list {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.education-item {
+		padding-top: 0.85rem;
+		border-top: 1px solid var(--border);
+	}
+
+	.education-head {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		align-items: baseline;
+		flex-wrap: wrap;
+	}
+
+	.education-head h3 {
+		font-family: var(--serif);
+		font-size: 1.08rem;
+		line-height: 1.35;
+		color: var(--text-primary);
+	}
+
+	.education-head p {
+		margin: 0.25rem 0 0;
+	}
+
+	.contact-line {
+		margin: 0.35rem 0 0;
 		color: var(--text-secondary);
 	}
 
-	.pub-link-btn {
-		font-family: var(--sans);
-		font-size: 11px;
-		font-weight: 600;
-		color: var(--accent-teal);
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		text-decoration: none;
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: 0;
+	@media (max-width: 900px) {
+		.intro {
+			grid-template-columns: 1fr;
+		}
+
+		.profile-rail {
+			max-width: 280px;
+		}
 	}
 
-	.pub-link-btn:hover {
-		color: var(--accent-coral);
-	}
-
-	.pub-link {
-		font-family: var(--sans);
-		font-size: 11px;
-		font-weight: 600;
-		color: var(--accent-teal);
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		text-decoration: none;
-	}
-
-	.pub-link:hover {
-		color: var(--accent-coral);
-	}
-
-	@media (max-width: 1023px) {
-		.main-layout-wrap {
+	@media (max-width: 640px) {
+		.home-shell {
 			padding-top: 1rem;
+		}
+
+		.fact-list div,
+		.update-list li {
+			grid-template-columns: 1fr;
+			gap: 0.25rem;
 		}
 	}
 </style>
