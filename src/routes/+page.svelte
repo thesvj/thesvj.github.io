@@ -2,6 +2,20 @@
 	import { advisors, education, news, publications, service } from '$lib/data/profile';
 
 	const email = 'saij@iiitd.ac.in';
+	const orcid = 'https://orcid.org/0009-0001-7913-9907';
+
+	let openBib = $state<string | null>(null);
+	let copiedBib = $state<string | null>(null);
+
+	async function copyBib(title: string, text: string) {
+		try {
+			await navigator.clipboard.writeText(text);
+			copiedBib = title;
+			setTimeout(() => (copiedBib = null), 1500);
+		} catch {
+			openBib = title;
+		}
+	}
 
 	const advisorLinks = advisors
 		.map(
@@ -60,6 +74,7 @@
 		email: 'saij@iiitd.ac.in',
 		sameAs: [
 			'https://github.com/thesvj',
+			'https://orcid.org/0009-0001-7913-9907',
 			'https://x.com/saij_029',
 			'https://www.linkedin.com/in/sai-varun-jamalpoor-1020b1285/'
 		]
@@ -98,6 +113,9 @@
 				<p class="contact-line"><a href="mailto:{email}">{email}</a></p>
 				<p class="contact-line">
 					<a href="https://github.com/thesvj" target="_blank" rel="noreferrer noopener">GitHub</a>
+				</p>
+				<p class="contact-line">
+					<a href={orcid} target="_blank" rel="noreferrer noopener">ORCID</a>
 				</p>
 				<p class="contact-line">
 					<a href="https://x.com/saij_029" target="_blank" rel="noreferrer noopener">X</a>
@@ -175,7 +193,7 @@
 					{#if pub.contribution}
 						<p class="summary-text"><em>My part:</em> {pub.contribution}</p>
 					{/if}
-					{#if pub.links.paper || pub.links.code || pub.links.project}
+					{#if pub.links.paper || pub.links.code || pub.links.project || pub.bibtex}
 						<div class="inline-links">
 							{#if pub.links.paper}
 								<a href={pub.links.paper} target="_blank" rel="noreferrer noopener">Paper</a>
@@ -186,6 +204,28 @@
 							{#if pub.links.project}
 								<a href={pub.links.project}>Project</a>
 							{/if}
+							{#if pub.bibtex}
+								<button
+									type="button"
+									class="link-button"
+									aria-expanded={openBib === pub.title}
+									onclick={() => (openBib = openBib === pub.title ? null : pub.title)}
+								>
+									BibTeX
+								</button>
+							{/if}
+						</div>
+					{/if}
+					{#if pub.bibtex && openBib === pub.title}
+						<div class="bibtex">
+							<button
+								type="button"
+								class="link-button copy"
+								onclick={() => copyBib(pub.title, pub.bibtex ?? '')}
+							>
+								{copiedBib === pub.title ? 'Copied' : 'Copy'}
+							</button>
+							<pre>{pub.bibtex}</pre>
 						</div>
 					{/if}
 				</article>
@@ -432,6 +472,50 @@
 		color: var(--text-primary);
 		text-decoration: none;
 		border-bottom: 1px solid transparent;
+	}
+
+	.link-button {
+		font: inherit;
+		background: none;
+		border: none;
+		border-bottom: 1px solid transparent;
+		padding: 0;
+		color: var(--text-primary);
+		cursor: pointer;
+	}
+
+	.link-button:hover {
+		border-bottom-color: var(--accent-teal);
+		color: var(--accent-teal);
+	}
+
+	.bibtex {
+		position: relative;
+		margin-top: 0.75rem;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 6px;
+	}
+
+	.bibtex pre {
+		margin: 0;
+		padding: 0.9rem 1rem;
+		overflow-x: auto;
+		font-family: var(--mono);
+		font-size: 12px;
+		line-height: 1.5;
+		white-space: pre;
+	}
+
+	.bibtex .copy {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.75rem;
+		font-family: var(--mono);
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		background: var(--bg-secondary);
 	}
 
 	.inline-links a:hover,

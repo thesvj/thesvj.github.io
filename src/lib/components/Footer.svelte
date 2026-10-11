@@ -22,15 +22,6 @@
 		<div class="copy">© {year} Sai Varun Jamalpoor</div>
 	</div>
 
-	<div class="visitor-map">
-		<a href="https://mapmyvisitors.com/web/1c3xj" title="Visit tracker">
-			<img
-				src="https://mapmyvisitors.com/map.png?d=luR8roV91K9JUW8HjnBwS1lAzb0Jcnt4rN8s9JupYAw&cl=ffffff"
-				alt="Visitor map"
-				width="200"
-			/>
-		</a>
-	</div>
 </footer>
 
 <style>
@@ -90,12 +81,6 @@
 		color: var(--text-faint);
 	}
 
-	.visitor-map {
-		display: flex;
-		justify-content: center;
-		padding: 1rem 0 0.5rem;
-		opacity: 0.7;
-	}
 
 	@media (max-width: 640px) {
 		.inner {

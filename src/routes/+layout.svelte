@@ -20,14 +20,16 @@
 	<!-- Open Graph defaults -->
 	<meta property="og:site_name" content="Sai Varun Jamalpoor" />
 	<meta property="og:type" content="website" />
-	<meta property="og:image" content="https://thesvj.github.io/profile_avatar.jpg" />
-	<meta property="og:image:alt" content="Sai Varun Jamalpoor" />
+	<meta property="og:image" content="https://thesvj.github.io/og-image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="Sai Varun Jamalpoor, PhD Scholar at IIIT-Delhi" />
 
 	<!-- Twitter / X Card defaults -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@saij_029" />
 	<meta name="twitter:creator" content="@saij_029" />
-	<meta name="twitter:image" content="https://thesvj.github.io/profile_avatar.jpg" />
+	<meta name="twitter:image" content="https://thesvj.github.io/og-image.png" />
 </svelte:head>
 
 <Nav />

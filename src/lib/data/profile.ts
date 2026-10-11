@@ -39,6 +39,7 @@ export type Publication = {
 	tldr: string;
 	contribution?: string;
 	links: { paper?: string; code?: string; project?: string };
+	bibtex?: string;
 };
 
 export const publications: Publication[] = [
@@ -52,7 +53,15 @@ export const publications: Publication[] = [
 		tldr: 'Per-direction rsLoRA adapters over IndicTrans2-1B with self-generated synthetic data. Best system on English→Manipuri (Meitei Mayek), COMET 92.31.',
 		contribution:
 			'Built the meta-learning pipeline (Reptile, Meta-Weight Net) for the per-direction LoRA adapters.',
-		links: { paper: 'https://www2.statmt.org/wmt26/pdf/2026.wmt-1.154.pdf' }
+		links: { paper: 'https://www2.statmt.org/wmt26/pdf/2026.wmt-1.154.pdf' },
+		bibtex: `@inproceedings{huidrom-etal-2026-panini,
+  title     = {{PANINI}: Improving Low-Resource {E}nglish{\\ensuremath{\\leftrightarrow}}{M}anipuri Translation in Two Scripts via rs{L}o{RA} and Three-Stream Self-Augmentation},
+  author    = {Huidrom, Rudali and Kumar, Vikas and Pangsatabam, Hoomexsun and Das, Pinaki and Khanganba, K Kabi and Zeno, Nongmaithem and Khumukcham, Nicholas and Okram, Mangalton and Konjengbam, Justice and Jamalpoor, Sai Varun and Khangembam, Alex D Nelson and Konjengbam, Anand and Goyal, Vikram},
+  booktitle = {Proceedings of the Eleventh Conference on Machine Translation},
+  year      = {2026},
+  pages     = {2161--2169},
+  url       = {https://www2.statmt.org/wmt26/pdf/2026.wmt-1.154.pdf}
+}`
 	},
 	{
 		title: 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs',
