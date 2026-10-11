@@ -3,6 +3,7 @@
 
 	const email = 'saij@iiitd.ac.in';
 	const orcid = 'https://orcid.org/0009-0001-7913-9907';
+	const scholar = 'https://scholar.google.com/citations?user=0urOgxQAAAAJ&hl=en';
 
 	let openBib = $state<string | null>(null);
 	let copiedBib = $state<string | null>(null);
@@ -74,6 +75,7 @@
 		email: 'saij@iiitd.ac.in',
 		sameAs: [
 			'https://github.com/thesvj',
+			'https://scholar.google.com/citations?user=0urOgxQAAAAJ',
 			'https://orcid.org/0009-0001-7913-9907',
 			'https://x.com/saij_029',
 			'https://www.linkedin.com/in/sai-varun-jamalpoor-1020b1285/'
@@ -113,6 +115,9 @@
 				<p class="contact-line"><a href="mailto:{email}">{email}</a></p>
 				<p class="contact-line">
 					<a href="https://github.com/thesvj" target="_blank" rel="noreferrer noopener">GitHub</a>
+				</p>
+				<p class="contact-line">
+					<a href={scholar} target="_blank" rel="noreferrer noopener">Google Scholar</a>
 				</p>
 				<p class="contact-line">
 					<a href={orcid} target="_blank" rel="noreferrer noopener">ORCID</a>
