@@ -10,6 +10,10 @@ export const news = [
 	},
 	{
 		date: 'Sep 2026',
+		text: 'Received the Best TA Award at IIIT-Delhi for Monsoon 2025 and Winter 2026, presented at the Institute Foundation Day on 8 September.'
+	},
+	{
+		date: 'Sep 2026',
 		text: 'PANINI, our English–Manipuri translation system, accepted at WMT 2026 (Conference on Machine Translation).'
 	},
 	{
