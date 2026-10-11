@@ -118,8 +118,8 @@
 			<p class="eyebrow">PhD Scholar, Computer Science, IIIT-Delhi</p>
 			<h1>Sai Varun Jamalpoor</h1>
 			<p class="summary">
-				I study how multimodal models represent and generate time: diagnosing temporal failures in
-				Video LLMs and building efficient audio–video diffusion transformers.
+				I work on generative models of video: building efficient audio–video diffusion transformers
+				and studying how video models represent and reason about time.
 			</p>
 
 			<dl class="fact-list">
@@ -133,7 +133,7 @@
 				</div>
 				<div>
 					<dt>Research</dt>
-					<dd>Temporal reasoning in Video LLMs, audio–video diffusion, low-resource MT</dd>
+					<dd>Generative video models, audio–video diffusion, temporal reasoning in Video LLMs</dd>
 				</div>
 			</dl>
 		</div>
@@ -144,14 +144,14 @@
 			<h2>About</h2>
 		</div>
 		<p>
-			I am a PhD student in Computer Science at IIIT-Delhi. One line of my work asks where temporal
-			evidence is lost inside Video LLMs: the frames carry the order, the hidden states often encode
-			it, and the answer still comes out near chance.
+			I am a PhD student in Computer Science at IIIT-Delhi working on generative models. My main
+			project builds native audio–video diffusion transformers that keep audio and video on
+			independent timebases, trained efficiently from a single GPU up to an 8×H200 node.
 		</p>
 		<p>
-			The other line builds native audio–video diffusion transformers that keep audio and video on
-			independent timebases, trained efficiently from a single GPU up to an 8×H200 node. I have also
-			worked on low-resource machine translation for Manipuri.
+			Alongside it, I study where temporal evidence is lost inside Video LLMs: the frames carry the
+			order, the hidden states often encode it, and the answer still comes out near chance. What I
+			learn there feeds back into how I design generators that stay temporally faithful.
 		</p>
 	</section>
 
