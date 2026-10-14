@@ -167,14 +167,8 @@
 			<h2>About</h2>
 		</div>
 		<p>
-			I am a PhD student in Computer Science at IIIT-Delhi working on generative models. My main
-			project builds native audio–video diffusion transformers that keep audio and video on
-			independent timebases, trained efficiently from a single GPU up to an 8×H200 node.
-		</p>
-		<p>
-			Alongside it, I study where temporal evidence is lost inside Video LLMs: the frames carry the
-			order, the hidden states often encode it, and the answer still comes out near chance. What I
-			learn there feeds back into how I design generators that stay temporally faithful.
+			I am a PhD student in Computer Science at IIIT-Delhi. I work on generative models for video
+			and audio.
 		</p>
 	</section>
 
@@ -236,17 +230,6 @@
 				</article>
 			{/each}
 		</div>
-	</section>
-
-	<section class="container section-block">
-		<div class="section-head">
-			<h2>Current Focus</h2>
-		</div>
-		<ul class="simple-list">
-			<li>Locating where temporal evidence is lost in Video LLMs.</li>
-			<li>Native audio–video diffusion transformers with independent timebases.</li>
-			<li>Efficient multi-GPU training with custom Triton/CUDA kernels.</li>
-		</ul>
 	</section>
 
 	<section class="container section-block" id="updates" style="scroll-margin-top: 88px;">
