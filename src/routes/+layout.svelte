@@ -12,7 +12,7 @@
 	<!-- Default SEO — pages override these in their own <svelte:head> -->
 	<meta
 		name="description"
-		content="Sai Varun Jamalpoor — PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
+		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
 	/>
 	<meta name="author" content="Sai Varun Jamalpoor" />
 	<meta name="robots" content="index, follow" />

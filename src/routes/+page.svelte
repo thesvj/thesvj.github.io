@@ -89,19 +89,19 @@
 	<link rel="canonical" href="https://thesvj.github.io/" />
 	<meta
 		name="description"
-		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling in video-language systems."
+		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
 	/>
 	<meta property="og:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		property="og:description"
-		content="PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
+		content="PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
 	/>
 	<meta property="og:url" content="https://thesvj.github.io/" />
 	<meta property="og:type" content="profile" />
 	<meta name="twitter:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		name="twitter:description"
-		content="PhD Scholar at IIIT-Delhi working on video generation, multimodal AI, and temporal modeling."
+		content="PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
 	/>
 	{@html jsonLdScript}
 </svelte:head>
@@ -141,8 +141,8 @@
 			<p class="eyebrow">PhD Scholar, Computer Science, IIIT-Delhi</p>
 			<h1>Sai Varun Jamalpoor</h1>
 			<p class="summary">
-				I work on generative models of video: building efficient audio–video diffusion transformers
-				and studying how video models represent and reason about time.
+				I work on generative video models: I build efficient audio–video diffusion transformers and
+				study temporal reasoning in Video LLMs.
 			</p>
 
 			<dl class="fact-list">
@@ -167,8 +167,8 @@
 			<h2>About</h2>
 		</div>
 		<p>
-			I am a PhD student in Computer Science at IIIT-Delhi. I work on generative models for video
-			and audio.
+			I am a PhD student in Computer Science at IIIT-Delhi. I work on generative video models,
+			audio–video diffusion, and temporal reasoning in Video LLMs.
 		</p>
 	</section>
 
