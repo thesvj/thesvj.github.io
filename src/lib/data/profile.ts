@@ -80,7 +80,7 @@ export const education = [
 		degree: 'PhD Candidate in Computer Science',
 		period: '2025 – Present',
 		description:
-			'I research generative video models, specifically focusing on temporal consistency, frame interpolation, and distributed training setups.',
+			'I research video generative models, efficient generative AI, and temporal reasoning in video-language models.',
 		current: true
 	},
 	{

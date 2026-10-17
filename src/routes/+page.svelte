@@ -89,19 +89,19 @@
 	<link rel="canonical" href="https://thesvj.github.io/" />
 	<meta
 		name="description"
-		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
+		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	<meta property="og:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		property="og:description"
-		content="PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
+		content="PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	<meta property="og:url" content="https://thesvj.github.io/" />
 	<meta property="og:type" content="profile" />
 	<meta name="twitter:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		name="twitter:description"
-		content="PhD Scholar at IIIT-Delhi working on generative video models, audio–video diffusion, and temporal reasoning in Video LLMs."
+		content="PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	{@html jsonLdScript}
 </svelte:head>
@@ -141,8 +141,8 @@
 			<p class="eyebrow">PhD Scholar, Computer Science, IIIT-Delhi</p>
 			<h1>Sai Varun Jamalpoor</h1>
 			<p class="summary">
-				I work on generative video models: I build efficient audio–video diffusion transformers and
-				study temporal reasoning in Video LLMs.
+				I study video generative models: how to make them efficient, and how video models reason
+				about time.
 			</p>
 
 			<dl class="fact-list">
@@ -156,7 +156,7 @@
 				</div>
 				<div>
 					<dt>Research</dt>
-					<dd>Generative video models, audio–video diffusion, temporal reasoning in Video LLMs</dd>
+					<dd>Video generative models · Efficient generative AI · Temporal reasoning in video-language models</dd>
 				</div>
 			</dl>
 		</div>
@@ -167,8 +167,8 @@
 			<h2>About</h2>
 		</div>
 		<p>
-			I am a PhD student in Computer Science at IIIT-Delhi. I work on generative video models,
-			audio–video diffusion, and temporal reasoning in Video LLMs.
+			I am a PhD student in Computer Science at IIIT-Delhi. I study video generative models: how to
+			make them efficient, and how video models reason about time.
 		</p>
 	</section>
 
