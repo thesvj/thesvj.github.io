@@ -1,4 +1,5 @@
 import type { RequestHandler } from './$types';
+import { timelines } from '$lib/data/timelines';
 
 const BASE = 'https://thesvj.github.io';
 
@@ -11,6 +12,8 @@ export const GET: RequestHandler = async () => {
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url><loc>${BASE}/timelines/</loc></url>
+${timelines.map(({ slug }) => `  <url><loc>${BASE}/timelines/${slug}/</loc></url>`).join('\n')}
 </urlset>`;
 
 	return new Response(sitemap, {

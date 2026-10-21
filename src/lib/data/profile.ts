@@ -21,6 +21,10 @@ export const news = [
 		text: "My first paper, 'Temporal Fidelity', was rejected at EMNLP 2026. Reviewers asked for sharper positioning; the revision is now under review."
 	},
 	{
+		date: 'Jun 2026',
+		text: 'Attended ACM SIGMOD/PODS 2026 in Bangalore as a student volunteer, 31 May–5 June.'
+	},
+	{
 		date: 'May 2026',
 		text: "Submitted 'Temporal Fidelity: Probing the Temporal Resolution of Video-Language Models' to ARR."
 	},

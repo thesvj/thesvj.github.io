@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 
 	let mobileOpen = $state(false);
 	let theme = $state('light');
@@ -13,7 +14,8 @@
 	const links: Link[] = [
 		{ label: 'About', href: '/#about' },
 		{ label: 'Publications', href: '/#research' },
-		{ label: 'News', href: '/#updates' }
+		{ label: 'News', href: '/#updates' },
+		{ label: 'Timelines', href: '/timelines/' }
 	];
 
 	onMount(() => {
@@ -39,7 +41,13 @@
 
 		<nav class="links desktop">
 			{#each links as link (link.href)}
-				<a href={link.href} class="link">{link.label}</a>
+				<a
+					href={link.href}
+					class="link"
+					aria-current={link.href === '/timelines/' && page.url.pathname.startsWith('/timelines')
+						? 'page'
+						: undefined}>{link.label}</a
+				>
 			{/each}
 		</nav>
 
@@ -98,7 +106,14 @@
 	{#if mobileOpen}
 		<div class="mobile-menu">
 			{#each links as link (link.href)}
-				<a href={link.href} class="mobile-link" onclick={close}>{link.label}</a>
+				<a
+					href={link.href}
+					class="mobile-link"
+					aria-current={link.href === '/timelines/' && page.url.pathname.startsWith('/timelines')
+						? 'page'
+						: undefined}
+					onclick={close}>{link.label}</a
+				>
 			{/each}
 		</div>
 	{/if}
@@ -178,6 +193,8 @@
 		transform-origin: left;
 	}
 
+	.link[aria-current],
+	.mobile-link[aria-current],
 	.link:hover,
 	.link:focus-visible {
 		color: var(--accent-teal);
