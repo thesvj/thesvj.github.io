@@ -1,3 +1,6 @@
+import { aiCurriculum, aiPreparation } from './ai-curriculum';
+import { nlpCurriculum, nlpPreparation } from './nlp-curriculum';
+import { cvCurriculum, cvPreparation } from './cv-curriculum';
 import { genaiCurriculum, genaiPreparation } from './genai-curriculum';
 import { mlCurriculum, mlPreparation, type StudyStage } from './ml-curriculum';
 import { dlCurriculum, dlPreparation } from './dl-curriculum';
@@ -11,6 +14,27 @@ export type Curriculum = {
 };
 
 export const curricula: Record<string, Curriculum> = {
+	'artificial-intelligence': {
+		stages: aiCurriculum,
+		preparation: aiPreparation,
+		prerequisites:
+			'Discrete mathematics, logic, probability, algorithms, linear algebra, and basic programming.',
+		recentFrom: 2020
+	},
+	'natural-language-processing': {
+		stages: nlpCurriculum,
+		preparation: nlpPreparation,
+		prerequisites:
+			'Probability, linear algebra, calculus, dynamic programming, neural networks, and text processing.',
+		recentFrom: 2023
+	},
+	'computer-vision': {
+		stages: cvCurriculum,
+		preparation: cvPreparation,
+		prerequisites:
+			'Linear algebra, calculus, probability, image gradients, camera geometry, and neural networks.',
+		recentFrom: 2023
+	},
 	'machine-learning': {
 		stages: mlCurriculum,
 		preparation: mlPreparation,

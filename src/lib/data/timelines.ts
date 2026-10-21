@@ -1,3 +1,6 @@
+import { aiTimeline } from './artificial-intelligence';
+import { nlpTimeline } from './natural-language-processing';
+import { cvTimeline } from './computer-vision';
 import { generativeAITimeline } from './generative-ai';
 import { deepLearningTimeline } from './deep-learning';
 
@@ -1281,5 +1284,8 @@ export const timelines: Timeline[] = [
 			'Statistical foundations and machine learning, with tabular prediction research through September 2026.'
 	},
 	deepLearningTimeline,
-	generativeAITimeline
+	generativeAITimeline,
+	nlpTimeline,
+	cvTimeline,
+	aiTimeline
 ];
