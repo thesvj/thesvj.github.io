@@ -89,19 +89,19 @@
 	<link rel="canonical" href="https://thesvj.github.io/" />
 	<meta
 		name="description"
-		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
+		content="Sai Varun Jamalpoor is a PhD Scholar at IIIT-Delhi working on interpretability of vision models, video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	<meta property="og:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		property="og:description"
-		content="PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
+		content="PhD Scholar at IIIT-Delhi working on interpretability of vision models, video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	<meta property="og:url" content="https://thesvj.github.io/" />
 	<meta property="og:type" content="profile" />
 	<meta name="twitter:title" content="Sai Varun Jamalpoor | PhD Scholar at IIIT-Delhi" />
 	<meta
 		name="twitter:description"
-		content="PhD Scholar at IIIT-Delhi working on video generative models, efficient generative AI, and temporal reasoning in video-language models."
+		content="PhD Scholar at IIIT-Delhi working on interpretability of vision models, video generative models, efficient generative AI, and temporal reasoning in video-language models."
 	/>
 	{@html jsonLdScript}
 </svelte:head>
@@ -141,8 +141,8 @@
 			<p class="eyebrow">PhD Scholar, Computer Science, IIIT-Delhi</p>
 			<h1>Sai Varun Jamalpoor</h1>
 			<p class="summary">
-				I study video generative models: how to make them efficient, and how video models reason
-				about time.
+				I am currently studying the interpretability of vision models. I also study video generative
+				models: how to make them efficient, and how video models reason about time.
 			</p>
 
 			<dl class="fact-list">
@@ -156,7 +156,7 @@
 				</div>
 				<div>
 					<dt>Research</dt>
-					<dd>Video generative models · Efficient generative AI · Temporal reasoning in video-language models</dd>
+					<dd>Interpretability of vision models · Video generative models · Efficient generative AI · Temporal reasoning in video-language models</dd>
 				</div>
 			</dl>
 		</div>
@@ -167,8 +167,9 @@
 			<h2>About</h2>
 		</div>
 		<p>
-			I am a PhD student in Computer Science at IIIT-Delhi. I study video generative models: how to
-			make them efficient, and how video models reason about time.
+			I am a PhD student in Computer Science at IIIT-Delhi. I am currently studying the
+			interpretability of vision models. I also study video generative models: how to make them
+			efficient, and how video models reason about time.
 		</p>
 	</section>
 

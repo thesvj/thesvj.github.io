@@ -84,7 +84,7 @@ export const education = [
 		degree: 'PhD Candidate in Computer Science',
 		period: '2025 – Present',
 		description:
-			'I research video generative models, efficient generative AI, and temporal reasoning in video-language models.',
+			'I research interpretability of vision models, video generative models, efficient generative AI, and temporal reasoning in video-language models.',
 		current: true
 	},
 	{
