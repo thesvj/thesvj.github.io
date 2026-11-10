@@ -6,6 +6,10 @@ export const advisors = [
 export const news = [
 	{
 		date: 'Oct 2026',
+		text: 'Received the CODS 2026 Student Travel Grant (ACM IKDD, Gandhinagar, Dec 2026).'
+	},
+	{
+		date: 'Oct 2026',
 		text: "Submitted 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs', a reworked version of my first paper, for review."
 	},
 	{
