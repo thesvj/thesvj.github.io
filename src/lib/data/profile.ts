@@ -66,15 +66,6 @@ export const publications: Publication[] = [
   pages     = {2161--2169},
   url       = {https://www2.statmt.org/wmt26/pdf/2026.wmt-1.154.pdf}
 }`
-	},
-	{
-		title: 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs',
-		authors: 'Sai Varun Jamalpoor, Mukesh Mohania, Vikram Goyal',
-		venue: 'Under review',
-		year: '2026',
-		status: 'under-review',
-		tldr: 'A trial-level diagnostic (delivered-frame logs, signal detection theory, first-token YES−NO margin) showing where temporal-order evidence is lost in Video LLMs that score near chance.',
-		links: {}
 	}
 ];
 
