@@ -10,7 +10,7 @@ export const news = [
 	},
 	{
 		date: 'Oct 2026',
-		text: "Submitted 'Chance Is Not Blindness: Diagnosing Temporal Evidence in Video LLMs', a reworked version of my first paper, for review."
+		text: "Submitted 'Chance Is Not Blindness', a revision of 'Temporal Fidelity', for review."
 	},
 	{
 		date: 'Sep 2026',
@@ -22,7 +22,7 @@ export const news = [
 	},
 	{
 		date: 'Aug 2026',
-		text: "My first paper, 'Temporal Fidelity', was rejected at EMNLP 2026. Reviewers asked for sharper positioning; the revision is now under review."
+		text: "'Temporal Fidelity', rejected at EMNLP 2026."
 	},
 	{
 		date: 'Jun 2026',
@@ -110,7 +110,7 @@ export const service = [
 	},
 	{
 		role: 'Head Teaching Assistant',
-		details: 'Information Integration and Applications (CSE656), IIIT-Delhi, Monsoon 2025'
+		details: 'Information Integration and Applications (CSE656), IIIT-Delhi, Monsoon 2025 and Monsoon 2026'
 	},
 	{
 		role: 'Mentor',
